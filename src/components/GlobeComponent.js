@@ -1,3 +1,5 @@
+// src/components/GlobeComponent.js
+
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 import './GlobeComponent.css';
@@ -43,7 +45,7 @@ function GlobeComponent() {
     <div className="globe-container">
       <Globe
         ref={globeEl}
-        globeImageUrl="/textures/earth-cartoon.jpg" // Lokale Textur
+        globeImageUrl="https://unpkg.com/three-globe/example/img/earth-dark.jpg" // Externe Textur
         backgroundColor="#e2edf3"
         pointsData={disasterMarkers}
         pointLat={(d) => d.coordinates[1]}
