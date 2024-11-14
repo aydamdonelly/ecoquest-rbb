@@ -1,5 +1,8 @@
+// src/pages/Profile.js
+
 import React, { useState } from 'react';
 import SDGSelector from '../components/SDGSelector';
+import SDGs from '../data/sdgs';
 import './Profile.css';
 
 function Profile() {
