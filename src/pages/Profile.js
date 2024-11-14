@@ -1,3 +1,5 @@
+// src/pages/Profile.js
+
 import React, { useState } from 'react';
 import SDGSelector from '../components/SDGSelector';
 import SDGs from '../data/sdgs';
@@ -7,22 +9,21 @@ function Profile() {
 
   const handleSDGSelection = (selected) => {
     setSelectedSDGs(selected);
-    // Weitere Profilinformationen basierend auf den ausgewählten SDGs aktualisieren
   };
 
   return (
-    <div className="profile-page p-8 text-darkTeal dark:text-white min-h-screen pt-16">
-      <h1 className="text-3xl font-bold mb-6">Profil</h1>
+    <div className="p-5 text-cream font-sans">
+      <h1 className="text-3xl font-bold mb-5">Profil</h1>
       <SDGSelector onSelectionChange={handleSDGSelection} />
-      <div className="selected-sdgs mt-6">
-        <h2 className="text-2xl font-semibold mb-2">Ausgewählte SDGs:</h2>
-        <ul className="flex flex-wrap gap-2">
+      <div className="mt-5">
+        <h2 className="text-2xl font-semibold mb-3">Ausgewählte SDGs:</h2>
+        <ul className="flex flex-wrap">
           {selectedSDGs.map((id) => {
             const sdg = SDGs.find((sdg) => sdg.id === id);
             return (
-              <li 
-                key={id} 
-                className="px-3 py-1 bg-buttonGreen text-gray-800 rounded-full shadow-lg"
+              <li
+                key={id}
+                className="bg-greenLight text-dark px-3 py-1 rounded-full mr-2 mb-2"
               >
                 {sdg ? sdg.name : 'SDG'}
               </li>
@@ -30,7 +31,6 @@ function Profile() {
           })}
         </ul>
       </div>
-      {/* Weitere Profilinformationen hier */}
     </div>
   );
 }

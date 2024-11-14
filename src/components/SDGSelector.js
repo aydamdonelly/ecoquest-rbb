@@ -1,3 +1,5 @@
+// src/components/SDGSelector.js
+
 import React, { useState } from 'react';
 import SDGItem from './SDGItem';
 import SDGs from '../data/sdgs';
@@ -16,13 +18,13 @@ function SDGSelector({ onSelectionChange }) {
   };
 
   return (
-    <div className="sdg-selector grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {SDGs.map((sdg) => (
-        <SDGItem 
-          key={sdg.id} 
-          sdg={sdg} 
-          isSelected={selectedSDGs.includes(sdg.id)} 
-          toggleSDG={toggleSDG} 
+        <SDGItem
+          key={sdg.id}
+          sdg={sdg}
+          isSelected={selectedSDGs.includes(sdg.id)}
+          toggleSDG={toggleSDG}
         />
       ))}
     </div>
