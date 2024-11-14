@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import './SDGSelector.css';
-import SDGItem from './SDGItem'; // Sicherstellen, dass der Pfad korrekt ist
+import SDGItem from './SDGItem';
 import SDGs from '../data/sdgs';
 
 function SDGSelector({ onSelectionChange }) {
@@ -17,7 +16,7 @@ function SDGSelector({ onSelectionChange }) {
   };
 
   return (
-    <div className="sdg-selector">
+    <div className="sdg-selector grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
       {SDGs.map((sdg) => (
         <SDGItem 
           key={sdg.id} 

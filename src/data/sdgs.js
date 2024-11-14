@@ -1,5 +1,3 @@
-// src/data/sdgs.js
-
 const SDGs = [
     { id: 1, name: 'Keine Armut', color: '#E5243B' },
     { id: 2, name: 'Kein Hunger', color: '#DDA63A' },
@@ -18,6 +16,6 @@ const SDGs = [
     { id: 15, name: 'Leben an Land', color: '#56C02B' },
     { id: 16, name: 'Frieden, Gerechtigkeit und starke Institutionen', color: '#00689D' },
     { id: 17, name: 'Partnerschaften zur Erreichung der Ziele', color: '#19486A' },
-  ];
-  
-  export default SDGs;  
+];
+
+export default SDGs;
