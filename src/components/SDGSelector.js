@@ -1,8 +1,6 @@
-// src/components/SDGSelector.js
-
 import React, { useState } from 'react';
 import './SDGSelector.css';
-import SDGItem from './SDGItem';
+import SDGItem from './SDGItem'; // Sicherstellen, dass der Pfad korrekt ist
 import SDGs from '../data/sdgs';
 
 function SDGSelector({ onSelectionChange }) {
