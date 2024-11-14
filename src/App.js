@@ -1,6 +1,8 @@
+// App.js
+
 import React, { useState } from 'react';
 import './App.css';
-import BottomNavbar from './components/BottomNavbar';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Challenges from './pages/Challenges';
 import Impact from './pages/Impact';
@@ -26,8 +28,8 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       {renderPage()}
-      <BottomNavbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </div>
   );
 }
