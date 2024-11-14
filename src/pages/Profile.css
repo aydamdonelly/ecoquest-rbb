@@ -1,0 +1,24 @@
+.profile-page {
+    padding: 20px;
+    color: #1f4748;
+    font-family: 'Poppins Black', sans-serif;
+  }
+  
+  .selected-sdgs {
+    margin-top: 20px;
+  }
+  
+  .selected-sdgs ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .selected-sdgs li {
+    background-color: #a4c465;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+    display: inline-block;
+  }
+  

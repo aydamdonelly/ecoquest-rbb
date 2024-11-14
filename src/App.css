@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -40,9 +36,18 @@
 body {
   margin: 0;
   background-color: #e2edf3;
+  font-family: 'Poppins', sans-serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.App {
+  padding-bottom: 60px; /* Platz für die Bottom Navbar */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 

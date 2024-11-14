@@ -1,0 +1,30 @@
+.bottom-navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #e2edf3;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #1f4748;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-item.active {
+  color: #a4c465;
+}
+
+.nav-item span {
+  font-family: 'Poppins Black', sans-serif;
+  font-size: 12px;
+  margin-top: 4px;
+}
