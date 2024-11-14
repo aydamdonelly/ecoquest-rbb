@@ -1,0 +1,5 @@
+.globe-container {
+    width: 100%;
+    height: calc(100vh - 80px); /* Höhe abzüglich der Navbar */
+  }
+  
