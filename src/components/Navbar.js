@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'; // für Version 2
 import { FaHome, FaTasks, FaChartLine, FaUser } from 'react-icons/fa';
 
 function Navbar({ currentPage, setCurrentPage }) {
@@ -21,9 +21,9 @@ function Navbar({ currentPage, setCurrentPage }) {
           className="text-cream focus:outline-none"
         >
           {isOpen ? (
-            <XIcon className="h-6 w-6 text-cream" />
+            <XMarkIcon className="h-6 w-6 text-cream" /> // XMarkIcon statt XIcon
           ) : (
-            <MenuIcon className="h-6 w-6 text-cream" />
+            <Bars3Icon className="h-6 w-6 text-cream" /> // Bars3Icon statt MenuIcon
           )}
         </button>
         <h1 className="text-2xl font-bold text-cream">ecoQuest</h1>
