@@ -34,7 +34,7 @@ function GlobeComponent() {
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
     globeEl.current.controls().autoRotate = true;
-    globeEl.current.controls().autoRotateSpeed = 0.5;
+    globeEl.current.controls().autoRotateSpeed = 0.11; // Reduced speed to a third
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -67,25 +67,37 @@ function GlobeComponent() {
     storm_surge: '🌊',
   };
 
-  const createSprite = (type) => {
+  const createSprite = (type, marker) => {
     const canvas = document.createElement('canvas');
-    const size = 256; // Erhöht für bessere Auflösung
+    const size = 256;
     canvas.width = size;
     canvas.height = size;
     const context = canvas.getContext('2d');
-    context.font = '200px sans-serif'; // Größere Schriftgröße
+    context.font = '200px sans-serif';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(markerIcons[type] || '❗', size / 2, size / 2);
     const texture = new THREE.CanvasTexture(canvas);
-    const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    const material = new THREE.SpriteMaterial({
+      map: texture,
+      transparent: true,
+      depthWrite: false,
+    });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(6, 6, 1); // Dreimal so groß
+    sprite.scale.set(6, 6, 1);
+
+    // Make the sprite interactive
+    sprite.cursor = 'pointer';
+    sprite.onClick = () => handleMarkerClick(marker);
+    sprite.onPointerUp = () => handleMarkerClick(marker);
+
+    // GSAP animation
     animateSprite(sprite);
+
     return sprite;
   };
 
-  // GSAP-Animationsfunktion
+  // GSAP animation function
   const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(sprite.scale, {
@@ -103,15 +115,14 @@ function GlobeComponent() {
         globeImageUrl="https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg"
         backgroundColor="rgba(0,0,0,0)"
         customLayerData={disasterMarkers}
-        customThreeObject={(d) => createSprite(d.type)}
+        customThreeObject={(d) => createSprite(d.type, d)}
         customThreeObjectUpdate={(sprite, d) => {
           const { coordinates } = d;
           sprite.position.copy(
             globeEl.current.getCoords(coordinates[1], coordinates[0], 0.01)
           );
         }}
-        onCustomLayerClick={handleMarkerClick}
-        onCustomLayerPointerDown={handleMarkerClick} // Für Touch-Events
+        // Remove onCustomLayerClick and use event listeners on sprites instead
         animateIn={true}
       />
       {selectedMarker && (
