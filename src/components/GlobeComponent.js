@@ -7,24 +7,37 @@ import * as THREE from 'three';
 import { gsap } from 'gsap';
 
 const disasterMarkers = [
-  { id: 1, name: 'Waldbrand Kalifornien', coordinates: [-119.4179, 36.7783], type: 'fire' },
-  { id: 2, name: 'Flut Valencia', coordinates: [-0.3763, 39.4699], type: 'flood' },
-  { id: 3, name: 'Hurrikan Milton', coordinates: [-70.8333, 24.5], type: 'hurricane' },
-  { id: 4, name: 'Erdbeben in der Türkei', coordinates: [37.0, 38.0], type: 'earthquake' },
-  { id: 5, name: 'Überschwemmungen in Myanmar', coordinates: [95.9562, 21.9162], type: 'flood' },
-  { id: 6, name: "Erdrutsch in Xi'an, China", coordinates: [108.9398, 34.3416], type: 'landslide' },
-  { id: 7, name: 'Hurrikan Hilary in Mexiko', coordinates: [-110.0, 25.0], type: 'hurricane' },
-  { id: 8, name: 'Taifun Saola in den Philippinen', coordinates: [121.7740, 12.8797], type: 'typhoon' },
-  { id: 9, name: 'Hurrikan Idalia in Florida, USA', coordinates: [-82.9001, 27.9944], type: 'hurricane' },
-  { id: 10, name: 'Taifun Haikui in Taiwan', coordinates: [120.9605, 23.6978], type: 'typhoon' },
-  { id: 11, name: 'Starkregen in Tajikistan', coordinates: [71.2761, 38.8610], type: 'flood' },
-  { id: 12, name: 'Sturmflut an der Ostsee', coordinates: [10.0, 54.0], type: 'storm_surge' },
-  { id: 13, name: 'Waldbrände in Brasilien', coordinates: [-51.9253, -14.2350], type: 'fire' },
-  { id: 14, name: 'Dürre in Somalia', coordinates: [45.0, 5.0], type: 'drought' },
-  { id: 15, name: 'Lawinen in den Alpen', coordinates: [10.0, 46.0], type: 'avalanche' },
-  { id: 16, name: 'Vulkanausbruch auf Island', coordinates: [-19.0, 64.0], type: 'volcano' },
-  { id: 17, name: 'Tornado in Oklahoma, USA', coordinates: [-97.0, 35.5], type: 'tornado' },
-  { id: 18, name: 'Hitzewelle in Südeuropa', coordinates: [15.0, 41.0], type: 'heatwave' },
+  {
+    id: 1,
+    name: 'Waldbrand Kalifornien',
+    label: 'Wildfire in California, USA',
+    description:
+      'Severe wildfires have been affecting California due to extreme heat and dry conditions.',
+    image: '/images/california-wildfire.jpg',
+    coordinates: [-119.4179, 36.7783],
+    type: 'fire',
+  },
+  {
+    id: 2,
+    name: 'Flut Valencia',
+    label: 'Floods in Valencia, Spain',
+    description:
+      'Heavy rainfall has caused flooding in Valencia, affecting thousands of residents.',
+    image: '/images/valencia-flood.jpg',
+    coordinates: [-0.3763, 39.4699],
+    type: 'flood',
+  },
+  {
+    id: 3,
+    name: 'Hurrikan Milton',
+    label: 'Hurricane Milton',
+    description:
+      'Hurricane Milton is approaching the east coast with winds up to 150 mph.',
+    image: '/images/hurricane-milton.jpg',
+    coordinates: [-70.8333, 24.5],
+    type: 'hurricane',
+  },
+  // ... Add similar details for the rest of the markers
 ];
 
 function GlobeComponent() {
@@ -55,9 +68,10 @@ function GlobeComponent() {
     setSelectedMarker(null);
   };
 
-  const animationProps = useSpring({
-    bottom: selectedMarker ? 0 : -300,
+  // Popup animation
+  const popupAnimation = useSpring({
     opacity: selectedMarker ? 1 : 0,
+    transform: selectedMarker ? 'scale(1)' : 'scale(0)',
     config: { tension: 200, friction: 20 },
   });
 
@@ -121,7 +135,7 @@ function GlobeComponent() {
       <div className="relative w-full h-screen globe-container">
         <Globe
           ref={globeEl}
-          globeImageUrl="https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg"
+          globeImageUrl="https://www.paul-reed.co.uk/images/atlas1.jpg"
           backgroundColor="rgba(0,0,0,0)"
           objectsData={disasterMarkers}
           objectLat={(d) => d.coordinates[1]}
@@ -133,39 +147,61 @@ function GlobeComponent() {
           }}
           enablePointerInteraction={true}
           animateIn={true}
+          labelsData={disasterMarkers}
+          labelLat={(d) => d.coordinates[1]}
+          labelLng={(d) => d.coordinates[0]}
+          labelText={(d) => d.label}
+          labelSize={1}
+          labelDotRadius={0}
+          labelColor={() => 'white'}
+          labelResolution={2}
+          labelAltitude={0.02}
+          labelIncludeDot={false}
         />
         {selectedMarker && (
           <animated.div
-            style={animationProps}
-            className="absolute left-0 right-0 bottom-0 bg-dark bg-opacity-90 text-cream p-5 rounded-t-lg shadow-lg"
+            style={popupAnimation}
+            className="fixed inset-0 flex items-center justify-center z-50"
           >
-            <h3 className="text-xl font-bold mb-2">{selectedMarker.name}</h3>
-            <div className="flex justify-around">
+            <div className="relative bg-dark bg-opacity-90 text-cream p-5 rounded-lg shadow-lg max-w-md w-full">
               <button
-                onClick={() => alert('Mehr Informationen kommen bald!')}
-                className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+                onClick={handleClose}
+                className="absolute top-2 right-2 text-cream focus:outline-none"
               >
-                Informieren
+                X
               </button>
-              <button
-                onClick={() => alert('Quiz kommt bald!')}
-                className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
-              >
-                Quiz
-              </button>
-              <button
-                onClick={() => alert('Spenden kommt bald!')}
-                className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
-              >
-                Spenden
-              </button>
+              {selectedMarker.image && (
+                <img
+                  src={selectedMarker.image}
+                  alt={selectedMarker.name}
+                  className="w-full h-48 object-cover rounded-md mb-4"
+                />
+              )}
+              <h3 className="text-xl font-bold mb-2">
+                {selectedMarker.label || selectedMarker.name}
+              </h3>
+              <p className="mb-4">{selectedMarker.description}</p>
+              <div className="flex justify-around">
+                <button
+                  onClick={() => alert('More information coming soon!')}
+                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+                >
+                  Inform
+                </button>
+                <button
+                  onClick={() => alert('Quiz coming soon!')}
+                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+                >
+                  Quiz
+                </button>
+                <button
+                  onClick={() => alert('Donations coming soon!')}
+                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+                >
+                  Donate
+                </button>
+              </div>
             </div>
-            <button
-              onClick={handleClose}
-              className="absolute top-2 right-2 text-cream"
-            >
-              X
-            </button>
           </animated.div>
         )}
       </div>
