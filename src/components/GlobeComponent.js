@@ -1,5 +1,3 @@
-// src/components/GlobeComponent.js
-
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 import { animated, useSpring } from 'react-spring';
@@ -27,6 +25,7 @@ const disasterMarkers = [
   { id: 18, name: 'Hitzewelle in Südeuropa', coordinates: [15.0, 41.0], type: 'heatwave' },
 ];
 
+
 function GlobeComponent() {
   const globeEl = useRef();
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -39,59 +38,12 @@ function GlobeComponent() {
     controls.enableDamping = true; // Enable smooth damping
     controls.dampingFactor = 0.05; // Damping factor
 
-    // Configure controls to minimize interference with touch events
+    // Configure controls for touch interactions
     controls.touches = {
-      ONE: THREE.TOUCH.NONE, // Disable rotation on one-finger touch
+      ONE: THREE.TOUCH.ROTATE, // Enable rotation on one-finger touch
       TWO: THREE.TOUCH.DOLLY_PAN, // Allow zooming and panning with two fingers
     };
-    controls.enableRotate = false; // Disable rotation via controls on mobile
-
-    const canvas = globeEl.current.renderer().domElement;
-
-    // Prevent default touch behaviors
-    const preventDefault = (event) => event.preventDefault();
-
-    canvas.addEventListener('touchstart', preventDefault, { passive: false });
-    canvas.addEventListener('touchmove', preventDefault, { passive: false });
-
-    // Handle touch events manually
-    const handleTouchEnd = (event) => {
-      event.preventDefault(); // Prevent default scrolling behavior
-
-      const touch = event.changedTouches[0];
-      const mouse = new THREE.Vector2();
-      const rect = canvas.getBoundingClientRect();
-
-      // Adjust for device pixel ratio
-      const dpr = window.devicePixelRatio || 1;
-
-      mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
-
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouse, globeEl.current.camera());
-
-      // Intersect with objects
-      const intersects = raycaster.intersectObjects(
-        globeEl.current.scene().children,
-        true
-      );
-
-      if (intersects.length > 0) {
-        const intersectedObject = intersects[0].object;
-        if (intersectedObject.userData) {
-          handleMarkerClick(intersectedObject.userData);
-        }
-      }
-    };
-
-    canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
-
-    return () => {
-      canvas.removeEventListener('touchstart', preventDefault);
-      canvas.removeEventListener('touchmove', preventDefault);
-      canvas.removeEventListener('touchend', handleTouchEnd);
-    };
+    controls.enablePan = false; // Optional: disable panning if not needed
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -140,7 +92,7 @@ function GlobeComponent() {
       transparent: true,
     });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(6, 6, 1);
+    sprite.scale.set(10, 10, 1); // Increased size for better touch accuracy
     sprite.frustumCulled = false; // Ensure sprite is included in raycasting
 
     // Store the marker data in userData
@@ -156,18 +108,15 @@ function GlobeComponent() {
   const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(sprite.scale, {
-      x: 7.5,
-      y: 7.5,
+      x: 12.5,
+      y: 12.5,
       duration: 1,
       ease: 'sine.inOut',
     });
   };
 
   return (
-    <div
-      className="relative w-full h-screen globe-container"
-      style={{ touchAction: 'manipulation' }} // Ensure touch interactions are allowed
-    >
+    <div className="relative w-full h-screen globe-container">
       <Globe
         ref={globeEl}
         globeImageUrl="https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg"
