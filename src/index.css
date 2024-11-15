@@ -27,3 +27,19 @@ body {
   background-size: 400% 400%;
   animation: backgroundAnimation 15s ease infinite;
 }
+
+@keyframes pulse {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.2;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}

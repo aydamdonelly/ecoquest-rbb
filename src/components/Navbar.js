@@ -15,7 +15,7 @@ function Navbar({ currentPage, setCurrentPage }) {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
-      <div className="flex items-center justify-between px-4 py-3 bg-transparent">
+      <div className="flex items-center justify-between px-4 py-3">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-cream focus:outline-none"
@@ -36,8 +36,9 @@ function Navbar({ currentPage, setCurrentPage }) {
         leave="transition ease-in duration-200 transform"
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
+        className="fixed top-0 left-0 h-full w-64 z-40"
       >
-        <div className="absolute top-0 left-0 w-64 h-full bg-dark shadow-lg">
+        <div className="bg-dark h-full shadow-lg">
           <div className="mt-16">
             <nav className="flex flex-col space-y-4">
               <button
