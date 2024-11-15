@@ -254,7 +254,7 @@ function GlobeComponent() {
       <div className="relative w-full h-screen globe-container">
         <Globe
           ref={globeEl}
-          globeImageUrl="https://www.paul-reed.co.uk/images/atlas1.jpg"
+          globeImageUrl="/images/atlas1.jpg"
           backgroundColor="rgba(0,0,0,0)"
           objectsData={disasterMarkers}
           objectLat={(d) => d.coordinates[1]}
