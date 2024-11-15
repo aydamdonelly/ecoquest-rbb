@@ -5,6 +5,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { FaBicycle, FaRecycle, FaLeaf } from 'react-icons/fa';
 import 'react-circular-progressbar/dist/styles.css';
 
+
 const challengesData = [
   {
     id: 1,
