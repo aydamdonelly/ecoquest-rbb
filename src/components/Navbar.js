@@ -1,9 +1,10 @@
-// src/components/Navbar.jsa
+// src/components/Navbar.js
 
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { FaHome, FaTasks, FaChartLine, FaUser, FaLeaf } from 'react-icons/fa';
+import { useSpring, animated } from 'react-spring';
 
 function Navbar({ currentPage, setCurrentPage, userCredits }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,9 +14,15 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
     setIsOpen(false);
   };
 
+  // Animation for the credits counter
+  const creditAnimation = useSpring({
+    number: userCredits,
+    config: { duration: 500 },
+  });
+
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
-      <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex items-center justify-between px-4 py-3 relative">
         <button onClick={() => setIsOpen(!isOpen)} className="text-cream focus:outline-none">
           {isOpen ? (
             <XMarkIcon className="h-14 w-14 text-cream" />
@@ -23,11 +30,15 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
             <Bars3Icon className="h-14 w-14 text-cream" />
           )}
         </button>
-        <h1 className="text-5xl font-bold text-cream">ecoQuest</h1>
-        {/* Credits Counter */}
-        <div className="flex items-center bg-greenDark rounded-full px-4 py-2">
-          <FaLeaf className="h-6 w-6 text-cream" />
-          <span className="ml-2 text-xl text-cream font-bold">{userCredits}</span>
+        {/* Place ecoQuest and Credits Counter in top right corner */}
+        <div className="absolute top-3 right-4 flex flex-col items-center">
+          <h1 className="text-3xl font-bold text-cream">ecoQuest</h1>
+          <div className="flex items-center bg-greenDark rounded-full px-4 py-2 mt-2">
+            <FaLeaf className="h-6 w-6 text-cream" />
+            <animated.span className="ml-2 text-xl text-cream font-bold">
+              {creditAnimation.number.to((n) => Math.floor(n))}
+            </animated.span>
+          </div>
         </div>
       </div>
       <Transition

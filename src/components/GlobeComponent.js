@@ -1,3 +1,5 @@
+// src/components/GlobeComponent.js
+
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 import { animated, useSpring } from 'react-spring';
@@ -24,7 +26,6 @@ const disasterMarkers = [
   { id: 17, name: 'Tornado in Oklahoma, USA', coordinates: [-97.0, 35.5], type: 'tornado' },
   { id: 18, name: 'Hitzewelle in Südeuropa', coordinates: [15.0, 41.0], type: 'heatwave' },
 ];
-
 
 function GlobeComponent() {
   const globeEl = useRef();
@@ -116,59 +117,60 @@ function GlobeComponent() {
   };
 
   return (
-    <div className="relative w-full h-screen globe-container">
-      <Globe
-        ref={globeEl}
-        globeImageUrl="https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg"
-        backgroundColor="rgba(0,0,0,0)"
-        objectsData={disasterMarkers}
-        objectLat={(d) => d.coordinates[1]}
-        objectLng={(d) => d.coordinates[0]}
-        objectAltitude={0.01}
-        objectThreeObject={createMarkerMesh}
-        onObjectClick={(obj) => {
-          handleMarkerClick(obj);
-        }}
-        enablePointerInteraction={true}
-        animateIn={true}
-      />
-      {selectedMarker && (
-        <animated.div
-          style={animationProps}
-          className="absolute left-0 right-0 bottom-0 bg-dark bg-opacity-90 text-cream p-5 rounded-t-lg shadow-lg"
-        >
-          <h3 className="text-xl font-bold mb-2">{selectedMarker.name}</h3>
-          <div className="flex justify-around">
-            <button
-              onClick={() => alert('Mehr Informationen kommen bald!')}
-              className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
-            >
-              Informieren
-            </button>
-            <button
-              onClick={() => alert('Quiz kommt bald!')}
-              className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
-            >
-              Quiz
-            </button>
-            <button
-              onClick={() => alert('Spenden kommt bald!')}
-              className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
-            >
-              Spenden
-            </button>
-          </div>
-          <button
-            onClick={handleClose}
-            className="absolute top-2 right-2 text-cream"
+    <div className="flex justify-center items-center w-full h-full">
+      <div className="relative w-full h-screen globe-container">
+        <Globe
+          ref={globeEl}
+          globeImageUrl="https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg"
+          backgroundColor="rgba(0,0,0,0)"
+          objectsData={disasterMarkers}
+          objectLat={(d) => d.coordinates[1]}
+          objectLng={(d) => d.coordinates[0]}
+          objectAltitude={0.01}
+          objectThreeObject={createMarkerMesh}
+          onObjectClick={(obj) => {
+            handleMarkerClick(obj);
+          }}
+          enablePointerInteraction={true}
+          animateIn={true}
+        />
+        {selectedMarker && (
+          <animated.div
+            style={animationProps}
+            className="absolute left-0 right-0 bottom-0 bg-dark bg-opacity-90 text-cream p-5 rounded-t-lg shadow-lg"
           >
-            X
-          </button>
-        </animated.div>
-      )}
+            <h3 className="text-xl font-bold mb-2">{selectedMarker.name}</h3>
+            <div className="flex justify-around">
+              <button
+                onClick={() => alert('Mehr Informationen kommen bald!')}
+                className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+              >
+                Informieren
+              </button>
+              <button
+                onClick={() => alert('Quiz kommt bald!')}
+                className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+              >
+                Quiz
+              </button>
+              <button
+                onClick={() => alert('Spenden kommt bald!')}
+                className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+              >
+                Spenden
+              </button>
+            </div>
+            <button
+              onClick={handleClose}
+              className="absolute top-2 right-2 text-cream"
+            >
+              X
+            </button>
+          </animated.div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default GlobeComponent;
-

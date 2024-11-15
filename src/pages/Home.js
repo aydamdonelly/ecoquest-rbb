@@ -5,7 +5,7 @@ import GlobeComponent from '../components/GlobeComponent';
 
 function Home() {
   return (
-    <div className="flex-1">
+    <div className="flex-1 flex justify-center items-center">
       <GlobeComponent />
     </div>
   );
