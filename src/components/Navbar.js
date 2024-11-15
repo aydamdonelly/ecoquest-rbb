@@ -31,7 +31,7 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
           )}
         </button>
         {/* Place ecoQuest and Credits Counter in top right corner */}
-        <div className="absolute top-3 right-4 flex flex-col items-center">
+        <div className="absolute top-3 right-4 flex flex-col items-end">
           <h1 className="text-3xl font-bold text-cream">ecoQuest</h1>
           <div className="flex items-center bg-greenDark rounded-full px-4 py-2 mt-2">
             <FaLeaf className="h-6 w-6 text-cream" />
