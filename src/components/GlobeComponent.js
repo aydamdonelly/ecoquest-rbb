@@ -9,7 +9,21 @@ const disasterMarkers = [
   { id: 1, name: 'Waldbrand Kalifornien', coordinates: [-119.4179, 36.7783], type: 'fire' },
   { id: 2, name: 'Flut Valencia', coordinates: [-0.3763, 39.4699], type: 'flood' },
   { id: 3, name: 'Hurrikan Milton', coordinates: [-70.8333, 24.5], type: 'hurricane' },
-  // ... weitere Marker
+  { id: 4, name: 'Erdbeben in der Türkei', coordinates: [37.0, 38.0], type: 'earthquake' },
+  { id: 5, name: 'Überschwemmungen in Myanmar', coordinates: [95.9562, 21.9162], type: 'flood' },
+  { id: 6, name: "Erdrutsch in Xi'an, China", coordinates: [108.9398, 34.3416], type: 'landslide' },
+  { id: 7, name: 'Hurrikan Hilary in Mexiko', coordinates: [-110.0, 25.0], type: 'hurricane' },
+  { id: 8, name: 'Taifun Saola in den Philippinen', coordinates: [121.7740, 12.8797], type: 'typhoon' },
+  { id: 9, name: 'Hurrikan Idalia in Florida, USA', coordinates: [-82.9001, 27.9944], type: 'hurricane' },
+  { id: 10, name: 'Taifun Haikui in Taiwan', coordinates: [120.9605, 23.6978], type: 'typhoon' },
+  { id: 11, name: 'Starkregen in Tadschikistan', coordinates: [71.2761, 38.8610], type: 'flood' },
+  { id: 12, name: 'Sturmflut an der Ostsee', coordinates: [10.0, 54.0], type: 'storm_surge' },
+  { id: 13, name: 'Waldbrände in Brasilien', coordinates: [-51.9253, -14.2350], type: 'fire' },
+  { id: 14, name: 'Dürre in Somalia', coordinates: [45.0, 5.0], type: 'drought' },
+  { id: 15, name: 'Lawinen in den Alpen', coordinates: [10.0, 46.0], type: 'avalanche' },
+  { id: 16, name: 'Vulkanausbruch auf Island', coordinates: [-19.0, 64.0], type: 'volcano' },
+  { id: 17, name: 'Tornado in Oklahoma, USA', coordinates: [-97.0, 35.5], type: 'tornado' },
+  { id: 18, name: 'Hitzewelle in Südeuropa', coordinates: [15.0, 41.0], type: 'heatwave' },
 ];
 
 function GlobeComponent() {
@@ -18,6 +32,9 @@ function GlobeComponent() {
 
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
+    // Optional: Automatische Rotation
+    globeEl.current.controls().autoRotate = true;
+    globeEl.current.controls().autoRotateSpeed = 0.3;
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -43,21 +60,26 @@ function GlobeComponent() {
     drought: '☀️',
     storm: '🌩️',
     heatwave: '🌞',
+    landslide: '🪨',
+    typhoon: '🌪️',
+    tornado: '🌪️',
+    avalanche: '🏔️',
+    storm_surge: '🌊',
   };
 
   const createSprite = (type) => {
     const canvas = document.createElement('canvas');
-    canvas.width = 64;
-    canvas.height = 64;
+    canvas.width = 128; // Erhöhte Canvas-Größe
+    canvas.height = 128;
     const context = canvas.getContext('2d');
-    context.font = '48px sans-serif';
+    context.font = '96px sans-serif'; // Erhöhte Schriftgröße
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    context.fillText(markerIcons[type] || '❗', 32, 32);
+    context.fillText(markerIcons[type] || '❗', canvas.width / 2, canvas.height / 2);
     const texture = new THREE.CanvasTexture(canvas);
-    const material = new THREE.SpriteMaterial({ map: texture });
+    const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(0.8, 0.8, 0.8);
+    sprite.scale.set(2.5, 2.5, 1); // Erhöhte Skalierung
     return sprite;
   };
 
@@ -71,9 +93,13 @@ function GlobeComponent() {
         customThreeObject={(d) => createSprite(d.type)}
         customThreeObjectUpdate={(sprite, d) => {
           const { coordinates } = d;
-          sprite.position.copy(
-            globeEl.current.getCoords(coordinates[1], coordinates[0], 0.01)
+          const altitude = 0.02; // Optional: Icons leicht über der Oberfläche platzieren
+          const [x, y, z] = globeEl.current.getCoords(
+            coordinates[1],
+            coordinates[0],
+            altitude
           );
+          sprite.position.set(x, y, z);
         }}
         onCustomLayerClick={handleMarkerClick}
         animateIn={true}
