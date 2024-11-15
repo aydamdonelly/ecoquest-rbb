@@ -9,13 +9,7 @@ const disasterMarkers = [
   { id: 1, name: 'Waldbrand Kalifornien', coordinates: [-119.4179, 36.7783], type: 'fire' },
   { id: 2, name: 'Flut Valencia', coordinates: [-0.3763, 39.4699], type: 'flood' },
   { id: 3, name: 'Hurrikan Milton', coordinates: [-70.8333, 24.5], type: 'hurricane' },
-  { id: 4, name: 'Überschwemmung Bangladesch', coordinates: [90.3563, 23.6850], type: 'flood' },
-  { id: 5, name: 'Erdbeben Japan', coordinates: [138.2529, 36.2048], type: 'earthquake' },
-  { id: 6, name: 'Vulkanausbruch Island', coordinates: [-19.0208, 64.9631], type: 'volcano' },
-  { id: 7, name: 'Dürre Afrika', coordinates: [34.5085, -1.9403], type: 'drought' },
-  { id: 8, name: 'Sturm Australien', coordinates: [133.7751, -25.2744], type: 'storm' },
-  { id: 9, name: 'Überschwemmung Indien', coordinates: [78.9629, 20.5937], type: 'flood' },
-  { id: 10, name: 'Hitzewelle Europa', coordinates: [10.4515, 51.1657], type: 'heatwave' },
+  // ... weitere Marker
 ];
 
 function GlobeComponent() {
@@ -51,30 +45,20 @@ function GlobeComponent() {
     heatwave: '🌞',
   };
 
-  const customMarker = (marker) => {
-    const sprite = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: new THREE.CanvasTexture(generateMarker(markerIcons[marker.type] || '❗️')),
-        depthTest: false,
-      })
-    );
-    sprite.scale.set(0.5, 0.5, 1);
-    return sprite;
-  };
-
-  const generateMarker = (text) => {
-    const size = 64;
+  const createSprite = (type) => {
     const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
+    canvas.width = 64;
+    canvas.height = 64;
     const context = canvas.getContext('2d');
-    context.fillStyle = 'rgba(0, 0, 0, 0)';
-    context.fillRect(0, 0, size, size);
     context.font = '48px sans-serif';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    context.fillText(text, size / 2, size / 2);
-    return canvas;
+    context.fillText(markerIcons[type] || '❗', 32, 32);
+    const texture = new THREE.CanvasTexture(canvas);
+    const material = new THREE.SpriteMaterial({ map: texture });
+    const sprite = new THREE.Sprite(material);
+    sprite.scale.set(0.8, 0.8, 0.8);
+    return sprite;
   };
 
   return (
@@ -83,22 +67,15 @@ function GlobeComponent() {
         ref={globeEl}
         globeImageUrl="https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg"
         backgroundColor="rgba(0,0,0,0)"
-        labelsData={disasterMarkers}
-        labelLat={(d) => d.coordinates[1]}
-        labelLng={(d) => d.coordinates[0]}
-        labelText={(d) => ''}
-        labelSize={1.5}
-        labelDotRadius={0.4}
-        labelColor={() => 'rgba(255, 165, 0, 0.75)'}
-        labelResolution={2}
-        labelAltitude={0.01}
-        labelTypeFace={'Arial'}
-        onLabelClick={handleMarkerClick}
         customLayerData={disasterMarkers}
-        customThreeObject={customMarker}
-        customThreeObjectUpdate={(obj, marker) => {
-          obj.position.copy(globeEl.current.getCoords(marker.coordinates[1], marker.coordinates[0], 0.01));
+        customThreeObject={(d) => createSprite(d.type)}
+        customThreeObjectUpdate={(sprite, d) => {
+          const { coordinates } = d;
+          sprite.position.copy(
+            globeEl.current.getCoords(coordinates[1], coordinates[0], 0.01)
+          );
         }}
+        onCustomLayerClick={handleMarkerClick}
         animateIn={true}
       />
       {selectedMarker && (

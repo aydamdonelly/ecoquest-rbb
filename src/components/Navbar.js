@@ -21,12 +21,12 @@ function Navbar({ currentPage, setCurrentPage }) {
           className="text-cream focus:outline-none"
         >
           {isOpen ? (
-            <XMarkIcon className="h-8 w-8 text-cream" />
+            <XMarkIcon className="h-10 w-10 text-cream" />
           ) : (
-            <Bars3Icon className="h-8 w-8 text-cream" />
+            <Bars3Icon className="h-10 w-10 text-cream" />
           )}
         </button>
-        <h1 className="text-3xl font-bold text-cream">ecoQuest</h1>
+        <h1 className="text-4xl font-bold text-cream">ecoQuest</h1>
       </div>
       <Transition
         show={isOpen}
@@ -36,35 +36,35 @@ function Navbar({ currentPage, setCurrentPage }) {
         leave="transition ease-in duration-200 transform"
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
-        className="fixed top-0 left-0 h-full w-64 z-40"
+        className="fixed top-0 left-0 h-full w-full z-40"
       >
-        <div className="bg-dark bg-opacity-80 backdrop-blur h-full shadow-lg">
+        <div className="bg-dark bg-opacity-40 backdrop-blur-md h-full w-64 shadow-lg">
           <div className="mt-16">
             <nav className="flex flex-col space-y-4">
               <button
                 onClick={() => handleNavigation('home')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
                 <FaHome className="mr-3" />
                 Home
               </button>
               <button
                 onClick={() => handleNavigation('challenges')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
                 <FaTasks className="mr-3" />
                 Challenges
               </button>
               <button
                 onClick={() => handleNavigation('impact')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
                 <FaChartLine className="mr-3" />
                 Impact
               </button>
               <button
                 onClick={() => handleNavigation('profile')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
                 <FaUser className="mr-3" />
                 Profil
