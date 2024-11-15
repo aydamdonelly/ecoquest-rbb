@@ -16,7 +16,7 @@ const disasterMarkers = [
     image: '/images/california-wildfire.jpg',
     coordinates: [-119.4179, 36.7783],
     type: 'fire',
-  },
+  }/*,
   {
     id: 2,
     name: 'Flut Valencia',
@@ -37,7 +37,7 @@ const disasterMarkers = [
     coordinates: [-70.8333, 24.5],
     type: 'hurricane',
   },
-  // ... Add similar details for the rest of the markers
+  // ... Add similar details for the rest of the markers*/
 ];
 
 function GlobeComponent() {
@@ -135,7 +135,7 @@ function GlobeComponent() {
       <div className="relative w-full h-screen globe-container">
         <Globe
           ref={globeEl}
-          globeImageUrl="https://www.paul-reed.co.uk/images/atlas1.jpg"
+          globeImageUrl="/images/atlas1.jpg"
           backgroundColor="rgba(0,0,0,0)"
           objectsData={disasterMarkers}
           objectLat={(d) => d.coordinates[1]}
