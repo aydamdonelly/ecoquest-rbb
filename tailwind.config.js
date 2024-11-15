@@ -1,8 +1,8 @@
 // tailwind.config.js
 
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: false, // or 'media' or 'class'
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'], // Updated from "purge" to "content"
+  darkMode: 'class', // Enables dark mode with the 'class' strategy
   theme: {
     extend: {
       colors: {
@@ -13,9 +13,6 @@ module.exports = {
         greenDark: '#859F3D',
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [],
 };
