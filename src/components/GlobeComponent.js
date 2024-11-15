@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 import { animated, useSpring } from 'react-spring';
 import * as THREE from 'three';
+import { gsap } from 'gsap';
 
 const disasterMarkers = [
   { id: 1, name: 'Waldbrand Kalifornien', coordinates: [-119.4179, 36.7783], type: 'fire' },
@@ -32,9 +33,10 @@ function GlobeComponent() {
 
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
-    // Optional: Automatische Rotation
+
+    // Automatische Rotation hinzufügen (optional)
     globeEl.current.controls().autoRotate = true;
-    globeEl.current.controls().autoRotateSpeed = 0.3;
+    globeEl.current.controls().autoRotateSpeed = 0.5;
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -61,7 +63,7 @@ function GlobeComponent() {
     storm: '🌩️',
     heatwave: '🌞',
     landslide: '🪨',
-    typhoon: '🌪️',
+    typhoon: '🌀',
     tornado: '🌪️',
     avalanche: '🏔️',
     storm_surge: '🌊',
@@ -69,18 +71,34 @@ function GlobeComponent() {
 
   const createSprite = (type) => {
     const canvas = document.createElement('canvas');
-    canvas.width = 128; // Erhöhte Canvas-Größe
-    canvas.height = 128;
+    const size = 128; // Größere Canvas-Größe für höhere Auflösung
+    canvas.width = size;
+    canvas.height = size;
     const context = canvas.getContext('2d');
-    context.font = '96px sans-serif'; // Erhöhte Schriftgröße
+    context.font = '100px sans-serif'; // Größere Schriftgröße
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    context.fillText(markerIcons[type] || '❗', canvas.width / 2, canvas.height / 2);
+    context.fillText(markerIcons[type] || '❗', size / 2, size / 2);
     const texture = new THREE.CanvasTexture(canvas);
     const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(2.5, 2.5, 1); // Erhöhte Skalierung
+    sprite.scale.set(2, 2, 1); // Größere Skalierung
+
+    // GSAP-Animation hinzufügen
+    animateSprite(sprite);
+
     return sprite;
+  };
+
+  // GSAP-Animationsfunktion
+  const animateSprite = (sprite) => {
+    const tl = gsap.timeline({ repeat: -1, yoyo: true });
+    tl.to(sprite.scale, {
+      x: 2.5,
+      y: 2.5,
+      duration: 1,
+      ease: 'sine.inOut',
+    });
   };
 
   return (
@@ -93,13 +111,9 @@ function GlobeComponent() {
         customThreeObject={(d) => createSprite(d.type)}
         customThreeObjectUpdate={(sprite, d) => {
           const { coordinates } = d;
-          const altitude = 0.02; // Optional: Icons leicht über der Oberfläche platzieren
-          const [x, y, z] = globeEl.current.getCoords(
-            coordinates[1],
-            coordinates[0],
-            altitude
+          sprite.position.copy(
+            globeEl.current.getCoords(coordinates[1], coordinates[0], 0.01)
           );
-          sprite.position.set(x, y, z);
         }}
         onCustomLayerClick={handleMarkerClick}
         animateIn={true}
