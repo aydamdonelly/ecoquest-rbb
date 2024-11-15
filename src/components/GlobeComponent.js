@@ -190,7 +190,7 @@ function GlobeComponent() {
   // Popup animation
   const popupAnimation = useSpring({
     opacity: selectedMarker ? 1 : 0,
-    transform: selectedMarker ? 'scale(1)' : 'scale(0)',
+    transform: selectedMarker ? 'scale(1)' : 'scale(0.8)',
     config: { tension: 200, friction: 20 },
   });
 
@@ -226,7 +226,11 @@ function GlobeComponent() {
       transparent: true,
     });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(10, 10, 1); // Increased size for better touch accuracy
+
+    // Adjust size for mobile devices
+    const isMobile = window.innerWidth <= 768;
+    const scale = isMobile ? 15 : 10; // Increase size on mobile
+    sprite.scale.set(scale, scale, 1);
     sprite.frustumCulled = false; // Ensure sprite is included in raycasting
 
     // Store the marker data in userData
@@ -242,8 +246,8 @@ function GlobeComponent() {
   const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(sprite.scale, {
-      x: 12.5,
-      y: 12.5,
+      x: sprite.scale.x * 1.25,
+      y: sprite.scale.y * 1.25,
       duration: 1,
       ease: 'sine.inOut',
     });
@@ -254,7 +258,7 @@ function GlobeComponent() {
       <div className="relative w-full h-screen globe-container">
         <Globe
           ref={globeEl}
-          globeImageUrl="/images/atlas1.jpg"
+          globeImageUrl="https://www.paul-reed.co.uk/images/atlas1.jpg"
           backgroundColor="rgba(0,0,0,0)"
           objectsData={disasterMarkers}
           objectLat={(d) => d.coordinates[1]}
@@ -270,25 +274,25 @@ function GlobeComponent() {
           labelLat={(d) => d.coordinates[1]}
           labelLng={(d) => d.coordinates[0]}
           labelText={(d) => d.label}
-          labelSize={1.2}
+          labelSize={(d) => (window.innerWidth <= 768 ? 1.5 : 1.2)}
           labelDotRadius={0}
           labelColor={() => 'white'}
           labelResolution={2}
-          labelAltitude={0}
+          labelAltitude={-0.02} // Position label below the marker
           labelIncludeDot={false}
           labelClass={() => 'globe-label'}
         />
         {selectedMarker && (
           <animated.div
             style={popupAnimation}
-            className="fixed inset-0 flex items-center justify-center z-50"
+            className="fixed inset-0 flex items-center justify-center z-50 p-4"
           >
-            <div className="relative bg-dark bg-opacity-90 text-cream p-5 rounded-lg shadow-lg max-w-md w-full">
+            <div className="relative bg-dark bg-opacity-95 text-cream p-5 rounded-lg shadow-lg max-w-md w-full overflow-y-auto max-h-full">
               <button
                 onClick={handleClose}
-                className="absolute top-2 right-2 text-cream focus:outline-none"
+                className="absolute top-2 right-2 text-cream focus:outline-none text-2xl"
               >
-                X
+                &times;
               </button>
               {selectedMarker.image && (
                 <img
@@ -297,26 +301,26 @@ function GlobeComponent() {
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
               )}
-              <h3 className="text-xl font-bold mb-2">
+              <h3 className="text-xl font-bold mb-2 text-center">
                 {selectedMarker.label || selectedMarker.name}
               </h3>
-              <p className="mb-4">{selectedMarker.description}</p>
-              <div className="flex justify-around">
+              <p className="mb-4 text-center">{selectedMarker.description}</p>
+              <div className="flex flex-col space-y-2">
                 <button
                   onClick={() => alert('More information coming soon!')}
-                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark w-full"
                 >
                   Inform
                 </button>
                 <button
                   onClick={() => alert('Quiz coming soon!')}
-                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark w-full"
                 >
                   Quiz
                 </button>
                 <button
                   onClick={() => alert('Donations coming soon!')}
-                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark"
+                  className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark w-full"
                 >
                   Donate
                 </button>

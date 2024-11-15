@@ -8,8 +8,9 @@ module.exports = {
       colors: {
         cream: '#F5F5DC',
         dark: '#1A1A19',
+        darkLighter: '#2A2A28',
         greenLight: '#A4C465',
-        greenDark: '#31511E',
+        greenDark: '#859F3D',
       },
     },
   },
