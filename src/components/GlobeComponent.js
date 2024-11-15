@@ -1,3 +1,5 @@
+// src/components/GlobeComponent.js
+
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 import { animated, useSpring } from 'react-spring';
@@ -25,10 +27,10 @@ const disasterMarkers = [
   { id: 18, name: 'Hitzewelle in Südeuropa', coordinates: [15.0, 41.0], type: 'heatwave' },
 ];
 
-
 function GlobeComponent() {
   const globeEl = useRef();
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const touchData = useRef({ x: 0, y: 0, isDragging: false });
 
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
@@ -44,6 +46,56 @@ function GlobeComponent() {
       TWO: THREE.TOUCH.DOLLY_PAN, // Allow zooming and panning with two fingers
     };
     controls.enablePan = false; // Optional: disable panning if not needed
+
+    const canvas = globeEl.current.renderer().domElement;
+
+    const handleTouchStart = (event) => {
+      const touch = event.touches[0];
+      touchData.current.x = touch.clientX;
+      touchData.current.y = touch.clientY;
+      touchData.current.isDragging = false;
+    };
+
+    const handleTouchMove = (event) => {
+      touchData.current.isDragging = true;
+    };
+
+    const handleTouchEnd = (event) => {
+      if (!touchData.current.isDragging) {
+        const touch = event.changedTouches[0];
+        const mouse = new THREE.Vector2();
+        const rect = canvas.getBoundingClientRect();
+
+        mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, globeEl.current.camera());
+
+        const intersects = raycaster.intersectObjects(
+          globeEl.current.scene().children,
+          true
+        );
+
+        if (intersects.length > 0) {
+          const intersectedObject = intersects[0].object;
+          if (intersectedObject.userData) {
+            handleMarkerClick(intersectedObject.userData);
+          }
+        }
+      }
+      touchData.current.isDragging = false;
+    };
+
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: true });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: true });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchend', handleTouchEnd);
+    };
   }, []);
 
   const handleMarkerClick = (marker) => {
