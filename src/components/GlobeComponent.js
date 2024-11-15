@@ -30,7 +30,6 @@ const disasterMarkers = [
 function GlobeComponent() {
   const globeEl = useRef();
   const [selectedMarker, setSelectedMarker] = useState(null);
-  const touchData = useRef({ x: 0, y: 0, isDragging: false });
 
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
@@ -46,56 +45,6 @@ function GlobeComponent() {
       TWO: THREE.TOUCH.DOLLY_PAN, // Allow zooming and panning with two fingers
     };
     controls.enablePan = false; // Optional: disable panning if not needed
-
-    const canvas = globeEl.current.renderer().domElement;
-
-    const handleTouchStart = (event) => {
-      const touch = event.touches[0];
-      touchData.current.x = touch.clientX;
-      touchData.current.y = touch.clientY;
-      touchData.current.isDragging = false;
-    };
-
-    const handleTouchMove = (event) => {
-      touchData.current.isDragging = true;
-    };
-
-    const handleTouchEnd = (event) => {
-      if (!touchData.current.isDragging) {
-        const touch = event.changedTouches[0];
-        const mouse = new THREE.Vector2();
-        const rect = canvas.getBoundingClientRect();
-
-        mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
-        mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
-
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mouse, globeEl.current.camera());
-
-        const intersects = raycaster.intersectObjects(
-          globeEl.current.scene().children,
-          true
-        );
-
-        if (intersects.length > 0) {
-          const intersectedObject = intersects[0].object;
-          if (intersectedObject.userData) {
-            handleMarkerClick(intersectedObject.userData);
-          }
-        }
-      }
-      touchData.current.isDragging = false;
-    };
-
-    canvas.addEventListener('touchstart', handleTouchStart, { passive: true });
-    canvas.addEventListener('touchmove', handleTouchMove, { passive: true });
-    canvas.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-    return () => {
-      canvas.removeEventListener('touchstart', handleTouchStart);
-      canvas.removeEventListener('touchmove', handleTouchMove);
-      canvas.removeEventListener('touchend', handleTouchEnd);
-    };
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -139,29 +88,34 @@ function GlobeComponent() {
     context.textBaseline = 'middle';
     context.fillText(markerIcons[d.type] || '❗', size / 2, size / 2);
     const texture = new THREE.CanvasTexture(canvas);
-    const material = new THREE.SpriteMaterial({
+    const material = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
     });
-    const sprite = new THREE.Sprite(material);
-    sprite.scale.set(10, 10, 1); // Increased size for better touch accuracy
-    sprite.frustumCulled = false; // Ensure sprite is included in raycasting
+    const geometry = new THREE.PlaneGeometry(10, 10);
+    const mesh = new THREE.Mesh(geometry, material);
+
+    // Make the plane always face the camera
+    mesh.onBeforeRender = function (renderer, scene, camera) {
+      this.quaternion.copy(camera.quaternion);
+    };
 
     // Store the marker data in userData
-    sprite.userData = d;
+    mesh.userData = d;
 
     // GSAP animation
-    animateSprite(sprite);
+    animateMesh(mesh);
 
-    return sprite;
+    return mesh;
   };
 
   // GSAP animation function
-  const animateSprite = (sprite) => {
+  const animateMesh = (mesh) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(sprite.scale, {
-      x: 12.5,
-      y: 12.5,
+    tl.to(mesh.scale, {
+      x: 1.25,
+      y: 1.25,
+      z: 1.25,
       duration: 1,
       ease: 'sine.inOut',
     });
@@ -178,8 +132,8 @@ function GlobeComponent() {
         objectLng={(d) => d.coordinates[0]}
         objectAltitude={0.01}
         objectThreeObject={createMarkerMesh}
-        onObjectClick={(obj) => {
-          handleMarkerClick(obj);
+        onObjectClick={(markerData) => {
+          handleMarkerClick(markerData);
         }}
         enablePointerInteraction={true}
         animateIn={true}
