@@ -12,13 +12,13 @@ const disasterMarkers = [
   { id: 3, name: 'Hurrikan Milton', coordinates: [-70.8333, 24.5], type: 'hurricane' },
   { id: 4, name: 'Erdbeben in der Türkei', coordinates: [37.0, 38.0], type: 'earthquake' },
   { id: 5, name: 'Überschwemmungen in Myanmar', coordinates: [95.9562, 21.9162], type: 'flood' },
-  { id: 6, name: "Erdrutsch in Xi'an, China", coordinates: [108.9398, 34.3416], type: 'landslide' },
+  { id: 6, name: 'Erdrutsch in Xi\'an, China', coordinates: [108.9398, 34.3416], type: 'landslide' },
   { id: 7, name: 'Hurrikan Hilary in Mexiko', coordinates: [-110.0, 25.0], type: 'hurricane' },
   { id: 8, name: 'Taifun Saola in den Philippinen', coordinates: [121.7740, 12.8797], type: 'typhoon' },
   { id: 9, name: 'Hurrikan Idalia in Florida, USA', coordinates: [-82.9001, 27.9944], type: 'hurricane' },
   { id: 10, name: 'Taifun Haikui in Taiwan', coordinates: [120.9605, 23.6978], type: 'typhoon' },
-  { id: 11, name: 'Starkregen in Tadschikistan', coordinates: [71.2761, 38.8610], type: 'flood' },
-  { id: 12, name: 'Sturmflut an der Ostsee', coordinates: [10.0, 54.0], type: 'storm_surge' },
+  { id: 11, name: 'Starkregen in Tajikistan', coordinates: [71.2761, 38.8610], type: 'flood' },
+  { id: 12, name: 'Sturmflut an der Ostsee', coordinates: [10.0, 54.0], type: 'storm surge' },
   { id: 13, name: 'Waldbrände in Brasilien', coordinates: [-51.9253, -14.2350], type: 'fire' },
   { id: 14, name: 'Dürre in Somalia', coordinates: [45.0, 5.0], type: 'drought' },
   { id: 15, name: 'Lawinen in den Alpen', coordinates: [10.0, 46.0], type: 'avalanche' },
@@ -34,7 +34,7 @@ function GlobeComponent() {
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
     globeEl.current.controls().autoRotate = true;
-    globeEl.current.controls().autoRotateSpeed = 0.11; // Reduced speed
+    globeEl.current.controls().autoRotateSpeed = 0.11; // Angepasste Rotationsgeschwindigkeit
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -61,19 +61,20 @@ function GlobeComponent() {
     storm: '🌩️',
     heatwave: '🌞',
     landslide: '🪨',
-    typhoon: '🌀',
+    typhoon: '🌪️',
     tornado: '🌪️',
     avalanche: '🏔️',
     storm_surge: '🌊',
   };
+  
 
-  const createSprite = (type) => {
+  const createMarkerMesh = (type) => {
     const canvas = document.createElement('canvas');
-    const size = 256; // Larger size for higher resolution
+    const size = 256; // Größere Größe für höhere Auflösung
     canvas.width = size;
     canvas.height = size;
     const context = canvas.getContext('2d');
-    context.font = '200px sans-serif'; // Larger font size
+    context.font = '200px sans-serif'; // Größere Schriftgröße
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(markerIcons[type] || '❗', size / 2, size / 2);
@@ -84,15 +85,15 @@ function GlobeComponent() {
       depthWrite: false,
     });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(6, 6, 1); // Increase scale
+    sprite.scale.set(6, 6, 1);
 
-    // GSAP animation
+    // GSAP-Animation
     animateSprite(sprite);
 
     return sprite;
   };
 
-  // GSAP animation function
+  // GSAP-Animationsfunktion
   const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(sprite.scale, {
@@ -114,14 +115,11 @@ function GlobeComponent() {
         objectLng={(d) => d.coordinates[0]}
         objectAltitude={0.01}
         objectThreeObject={(d) => {
-          const sprite = createSprite(d.type);
-          sprite.userData = d; // Store the data in userData
+          const sprite = createMarkerMesh(d.type);
+          sprite.userData = d; // Speichere die Marker-Daten
           return sprite;
         }}
         onObjectClick={(obj) => {
-          handleMarkerClick(obj.userData);
-        }}
-        onObjectTouchEnd={(obj) => {
           handleMarkerClick(obj.userData);
         }}
         animateIn={true}
