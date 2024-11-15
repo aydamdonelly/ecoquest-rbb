@@ -46,7 +46,7 @@ const disasterMarkers = [
     image: '/images/turkey-earthquake.jpeg',
     coordinates: [38.9637, 35.2433],
     type: 'earthquake',
-  }/*,
+  },
   {
     id: 5,
     name: 'Vulkanausbruch Island',
@@ -156,7 +156,7 @@ const disasterMarkers = [
     image: '/images/hurricane-helene.jpg',
     coordinates: [-83.0, 30.0],
     type: 'hurricane',
-  },*/
+  },
 ];
 
 function GlobeComponent() {
