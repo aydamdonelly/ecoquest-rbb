@@ -44,60 +44,7 @@ function GlobeComponent() {
       ONE: THREE.TOUCH.ROTATE,
       TWO: THREE.TOUCH.DOLLY_PAN,
     };
-    controls.enablePan = false; // Disable panning if not needed
-
-    // Ensure atmosphere does not block events
-    globeEl.current.scene().children.forEach((obj) => {
-      if (obj.name === 'atmosphere') {
-        obj.material.depthWrite = false;
-        obj.renderOrder = -1;
-      }
-    });
-
-    // Prevent default touch behaviors
-    const canvas = globeEl.current.renderer().domElement;
-
-    const preventDefault = (event) => event.preventDefault();
-
-    canvas.addEventListener('touchstart', preventDefault, { passive: false });
-    canvas.addEventListener('touchmove', preventDefault, { passive: false });
-
-    // Handle touch events manually
-    const handleTouch = (event) => {
-      const touch = event.changedTouches[0];
-      const mouse = new THREE.Vector2();
-      const rect = canvas.getBoundingClientRect();
-
-      const devicePixelRatio = window.devicePixelRatio || 1;
-
-      mouse.x =
-        ((touch.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y =
-        -((touch.clientY - rect.top) / rect.height) * 2 + 1;
-
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouse, globeEl.current.camera());
-
-      const intersects = raycaster.intersectObjects(
-        globeEl.current.scene().children,
-        true
-      );
-
-      if (intersects.length > 0) {
-        const intersectedObject = intersects[0].object;
-        if (intersectedObject.userData && intersectedObject.userData.marker) {
-          handleMarkerClick(intersectedObject.userData.marker);
-        }
-      }
-    };
-
-    canvas.addEventListener('touchend', handleTouch, { passive: false });
-
-    return () => {
-      canvas.removeEventListener('touchstart', preventDefault);
-      canvas.removeEventListener('touchmove', preventDefault);
-      canvas.removeEventListener('touchend', handleTouch);
-    };
+    controls.enablePan = false; // Optional: disable panning if not needed
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -144,14 +91,14 @@ function GlobeComponent() {
     const material = new THREE.SpriteMaterial({
       map: texture,
       transparent: true,
-      // Removed depthWrite: false
+      // depthWrite: false, // Removed to ensure proper interaction
     });
     const sprite = new THREE.Sprite(material);
     sprite.scale.set(6, 6, 1);
     sprite.frustumCulled = false; // Ensure sprite is included in raycasting
 
     // Store the marker data in userData
-    sprite.userData = { marker: d };
+    sprite.userData = d;
 
     // GSAP animation
     animateSprite(sprite);
@@ -170,29 +117,19 @@ function GlobeComponent() {
     });
   };
 
-  // Detect if the device is mobile
-  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-
   return (
-    <div
-      className="relative w-full h-screen globe-container"
-      style={{ touchAction: 'manipulation' }} // Ensure touch interactions are allowed
-    >
+    <div className="relative w-full h-screen globe-container">
       <Globe
         ref={globeEl}
-        globeImageUrl={
-          isMobile
-            ? 'https://unpkg.com/three-globe@2.34.4/example/img/earth-dark-small.jpg' // Use a lower-res image for mobile
-            : 'https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg'
-        }
+        globeImageUrl="https://unpkg.com/three-globe@2.34.4/example/img/earth-dark.jpg"
         backgroundColor="rgba(0,0,0,0)"
         objectsData={disasterMarkers}
         objectLat={(d) => d.coordinates[1]}
         objectLng={(d) => d.coordinates[0]}
         objectAltitude={0.01}
-        objectThreeObject={(d) => createMarkerMesh(d)}
-        onObjectClick={(marker) => {
-          handleMarkerClick(marker);
+        objectThreeObject={createMarkerMesh}
+        onObjectClick={(obj) => {
+          handleMarkerClick(obj);
         }}
         enablePointerInteraction={true} // Ensure pointer interaction is enabled
         animateIn={true}
