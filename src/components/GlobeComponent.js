@@ -33,8 +33,6 @@ function GlobeComponent() {
 
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
-
-    // Automatische Rotation hinzufügen (optional)
     globeEl.current.controls().autoRotate = true;
     globeEl.current.controls().autoRotateSpeed = 0.5;
   }, []);
@@ -71,22 +69,19 @@ function GlobeComponent() {
 
   const createSprite = (type) => {
     const canvas = document.createElement('canvas');
-    const size = 128; // Größere Canvas-Größe für höhere Auflösung
+    const size = 256; // Erhöht für bessere Auflösung
     canvas.width = size;
     canvas.height = size;
     const context = canvas.getContext('2d');
-    context.font = '100px sans-serif'; // Größere Schriftgröße
+    context.font = '200px sans-serif'; // Größere Schriftgröße
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(markerIcons[type] || '❗', size / 2, size / 2);
     const texture = new THREE.CanvasTexture(canvas);
     const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(2, 2, 1); // Größere Skalierung
-
-    // GSAP-Animation hinzufügen
+    sprite.scale.set(6, 6, 1); // Dreimal so groß
     animateSprite(sprite);
-
     return sprite;
   };
 
@@ -94,8 +89,8 @@ function GlobeComponent() {
   const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(sprite.scale, {
-      x: 2.5,
-      y: 2.5,
+      x: 7.5,
+      y: 7.5,
       duration: 1,
       ease: 'sine.inOut',
     });
@@ -116,6 +111,7 @@ function GlobeComponent() {
           );
         }}
         onCustomLayerClick={handleMarkerClick}
+        onCustomLayerPointerDown={handleMarkerClick} // Für Touch-Events
         animateIn={true}
       />
       {selectedMarker && (

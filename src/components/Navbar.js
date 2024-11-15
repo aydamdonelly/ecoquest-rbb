@@ -21,12 +21,12 @@ function Navbar({ currentPage, setCurrentPage }) {
           className="text-cream focus:outline-none"
         >
           {isOpen ? (
-            <XMarkIcon className="h-10 w-10 text-cream" />
+            <XMarkIcon className="h-14 w-14 text-cream" />
           ) : (
-            <Bars3Icon className="h-10 w-10 text-cream" />
+            <Bars3Icon className="h-14 w-14 text-cream" />
           )}
         </button>
-        <h1 className="text-4xl font-bold text-cream">ecoQuest</h1>
+        <h1 className="text-5xl font-bold text-cream">ecoQuest</h1>
       </div>
       <Transition
         show={isOpen}
@@ -38,35 +38,50 @@ function Navbar({ currentPage, setCurrentPage }) {
         leaveTo="-translate-x-full"
         className="fixed top-0 left-0 h-full w-full z-40"
       >
-        <div className="bg-dark bg-opacity-40 backdrop-blur-md h-full w-64 shadow-lg">
-          <div className="mt-16">
-            <nav className="flex flex-col space-y-4">
+        <div className="bg-dark bg-opacity-80 backdrop-blur h-full shadow-lg relative">
+          {/* Pfeil zum Schließen hinzufügen */}
+          <button
+            onClick={() => setIsOpen(false)}
+            className="absolute top-4 right-4 text-cream focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-10 w-10 transform rotate-180"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <div className="mt-20">
+            <nav className="flex flex-col space-y-6">
               <button
                 onClick={() => handleNavigation('home')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
+                className="flex items-center px-6 py-4 text-2xl text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
-                <FaHome className="mr-3" />
+                <FaHome className="mr-4 h-8 w-8" />
                 Home
               </button>
               <button
                 onClick={() => handleNavigation('challenges')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
+                className="flex items-center px-6 py-4 text-2xl text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
-                <FaTasks className="mr-3" />
+                <FaTasks className="mr-4 h-8 w-8" />
                 Challenges
               </button>
               <button
                 onClick={() => handleNavigation('impact')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
+                className="flex items-center px-6 py-4 text-2xl text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
-                <FaChartLine className="mr-3" />
+                <FaChartLine className="mr-4 h-8 w-8" />
                 Impact
               </button>
               <button
                 onClick={() => handleNavigation('profile')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
+                className="flex items-center px-6 py-4 text-2xl text-cream hover:bg-greenDark hover:bg-opacity-50 transition-colors duration-200"
               >
-                <FaUser className="mr-3" />
+                <FaUser className="mr-4 h-8 w-8" />
                 Profil
               </button>
             </nav>
