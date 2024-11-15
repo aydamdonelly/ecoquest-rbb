@@ -38,6 +38,14 @@ function GlobeComponent() {
     controls.autoRotateSpeed = 0.11; // Adjusted rotation speed
     controls.enableDamping = true; // Enable smooth damping
     controls.dampingFactor = 0.05; // Damping factor
+
+    // Ensure atmosphere does not block events
+    globeEl.current.scene().children.forEach((obj) => {
+      if (obj.name === 'atmosphere') {
+        obj.material.depthWrite = false;
+        obj.renderOrder = -1;
+      }
+    });
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -88,6 +96,7 @@ function GlobeComponent() {
     });
     const sprite = new THREE.Sprite(material);
     sprite.scale.set(6, 6, 1);
+    sprite.frustumCulled = false; // Ensure sprite is included in raycasting
 
     // GSAP animation
     animateSprite(sprite);
@@ -118,13 +127,13 @@ function GlobeComponent() {
         objectAltitude={0.01}
         objectThreeObject={(d) => {
           const sprite = createMarkerMesh(d.type);
-          sprite.userData = d; // Store the marker data
+          // No need to set sprite.userData here
           return sprite;
         }}
-        onObjectClick={(obj) => {
-          handleMarkerClick(obj.userData);
+        onObjectClick={(marker) => {
+          handleMarkerClick(marker);
         }}
-        enablePointerInteraction={true} // Enable pointer interaction
+        enablePointerInteraction={true} // Ensure pointer interaction is enabled
         animateIn={true}
       />
       {selectedMarker && (
