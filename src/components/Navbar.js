@@ -21,12 +21,12 @@ function Navbar({ currentPage, setCurrentPage }) {
           className="text-cream focus:outline-none"
         >
           {isOpen ? (
-            <XMarkIcon className="h-6 w-6 text-cream" />
+            <XMarkIcon className="h-8 w-8 text-cream" />
           ) : (
-            <Bars3Icon className="h-6 w-6 text-cream" />
+            <Bars3Icon className="h-8 w-8 text-cream" />
           )}
         </button>
-        <h1 className="text-2xl font-bold text-cream">ecoQuest</h1>
+        <h1 className="text-3xl font-bold text-cream">ecoQuest</h1>
       </div>
       <Transition
         show={isOpen}
@@ -38,33 +38,33 @@ function Navbar({ currentPage, setCurrentPage }) {
         leaveTo="-translate-x-full"
         className="fixed top-0 left-0 h-full w-64 z-40"
       >
-        <div className="bg-dark h-full shadow-lg">
+        <div className="bg-dark bg-opacity-80 backdrop-blur h-full shadow-lg">
           <div className="mt-16">
             <nav className="flex flex-col space-y-4">
               <button
                 onClick={() => handleNavigation('home')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
               >
                 <FaHome className="mr-3" />
                 Home
               </button>
               <button
                 onClick={() => handleNavigation('challenges')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
               >
                 <FaTasks className="mr-3" />
                 Challenges
               </button>
               <button
                 onClick={() => handleNavigation('impact')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
               >
                 <FaChartLine className="mr-3" />
                 Impact
               </button>
               <button
                 onClick={() => handleNavigation('profile')}
-                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark"
+                className="flex items-center px-4 py-2 text-cream hover:bg-greenDark hover:bg-opacity-50"
               >
                 <FaUser className="mr-3" />
                 Profil
