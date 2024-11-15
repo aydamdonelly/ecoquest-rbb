@@ -1,5 +1,3 @@
-// src/components/GlobeComponent.js
-
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 import { animated, useSpring } from 'react-spring';
@@ -26,6 +24,7 @@ const disasterMarkers = [
   { id: 17, name: 'Tornado in Oklahoma, USA', coordinates: [-97.0, 35.5], type: 'tornado' },
   { id: 18, name: 'Hitzewelle in Südeuropa', coordinates: [15.0, 41.0], type: 'heatwave' },
 ];
+
 
 function GlobeComponent() {
   const globeEl = useRef();
@@ -88,34 +87,29 @@ function GlobeComponent() {
     context.textBaseline = 'middle';
     context.fillText(markerIcons[d.type] || '❗', size / 2, size / 2);
     const texture = new THREE.CanvasTexture(canvas);
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE.SpriteMaterial({
       map: texture,
       transparent: true,
     });
-    const geometry = new THREE.PlaneGeometry(10, 10);
-    const mesh = new THREE.Mesh(geometry, material);
-
-    // Make the plane always face the camera
-    mesh.onBeforeRender = function (renderer, scene, camera) {
-      this.quaternion.copy(camera.quaternion);
-    };
+    const sprite = new THREE.Sprite(material);
+    sprite.scale.set(10, 10, 1); // Increased size for better touch accuracy
+    sprite.frustumCulled = false; // Ensure sprite is included in raycasting
 
     // Store the marker data in userData
-    mesh.userData = d;
+    sprite.userData = d;
 
     // GSAP animation
-    animateMesh(mesh);
+    animateSprite(sprite);
 
-    return mesh;
+    return sprite;
   };
 
   // GSAP animation function
-  const animateMesh = (mesh) => {
+  const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(mesh.scale, {
-      x: 1.25,
-      y: 1.25,
-      z: 1.25,
+    tl.to(sprite.scale, {
+      x: 12.5,
+      y: 12.5,
       duration: 1,
       ease: 'sine.inOut',
     });
@@ -132,8 +126,8 @@ function GlobeComponent() {
         objectLng={(d) => d.coordinates[0]}
         objectAltitude={0.01}
         objectThreeObject={createMarkerMesh}
-        onObjectClick={(markerData) => {
-          handleMarkerClick(markerData);
+        onObjectClick={(obj) => {
+          handleMarkerClick(obj);
         }}
         enablePointerInteraction={true}
         animateIn={true}
@@ -177,3 +171,4 @@ function GlobeComponent() {
 }
 
 export default GlobeComponent;
+

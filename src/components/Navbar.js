@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { FaHome, FaTasks, FaChartLine, FaUser } from 'react-icons/fa';
+import { FaHome, FaTasks, FaChartLine, FaUser, FaLeaf } from 'react-icons/fa';
 
-function Navbar({ currentPage, setCurrentPage }) {
+function Navbar({ currentPage, setCurrentPage, userCredits }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleNavigation = (page) => {
@@ -16,10 +16,7 @@ function Navbar({ currentPage, setCurrentPage }) {
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
       <div className="flex items-center justify-between px-4 py-3">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-cream focus:outline-none"
-        >
+        <button onClick={() => setIsOpen(!isOpen)} className="text-cream focus:outline-none">
           {isOpen ? (
             <XMarkIcon className="h-14 w-14 text-cream" />
           ) : (
@@ -27,6 +24,11 @@ function Navbar({ currentPage, setCurrentPage }) {
           )}
         </button>
         <h1 className="text-5xl font-bold text-cream">ecoQuest</h1>
+        {/* Credits Counter */}
+        <div className="flex items-center bg-greenDark rounded-full px-4 py-2">
+          <FaLeaf className="h-6 w-6 text-cream" />
+          <span className="ml-2 text-xl text-cream font-bold">{userCredits}</span>
+        </div>
       </div>
       <Transition
         show={isOpen}
@@ -39,7 +41,7 @@ function Navbar({ currentPage, setCurrentPage }) {
         className="fixed top-0 left-0 h-full w-full z-40"
       >
         <div className="bg-dark bg-opacity-80 backdrop-blur h-full shadow-lg relative">
-          {/* Pfeil zum Schließen hinzufügen */}
+          {/* Close Button */}
           <button
             onClick={() => setIsOpen(false)}
             className="absolute top-4 right-4 text-cream focus:outline-none"

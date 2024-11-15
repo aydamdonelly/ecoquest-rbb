@@ -1,19 +1,20 @@
 // tailwind.config.js
 
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
+        cream: '#F5F5DC',
         dark: '#1A1A19',
+        greenLight: '#A4C465',
         greenDark: '#31511E',
-        greenLight: '#859F3D',
-        cream: '#F6FCDF',
-      },
-      fontFamily: {
-        sans: ['Montserrat', 'sans-serif'],
       },
     },
+  },
+  variants: {
+    extend: {},
   },
   plugins: [],
 };
