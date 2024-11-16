@@ -7,12 +7,12 @@ import CO2ProgressBar from '../components/CO2ProgressBar';
 function Home() {
   return (
     <div className="flex-1 flex flex-col items-center relative">
-      {/* Progress Bar positioned higher */}
-      <div className="w-full absolute top-[10vh] px-4">
+      {/* Fortschrittsbalken */}
+      <div className="w-full absolute top-[15vh] px-4">
         <CO2ProgressBar />
       </div>
-      {/* Globe */}
-      <div className="flex-1 flex justify-center items-center">
+      {/* Globus */}
+      <div className="flex-1 flex justify-center items-center z-10">
         <GlobeComponent />
       </div>
     </div>

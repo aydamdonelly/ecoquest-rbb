@@ -55,9 +55,9 @@ function Profile() {
         <img
           src="/images/profile-picture.jpg"
           alt="Profilbild"
-          className="w-40 h-40 rounded-full mb-4"
+          className="w-40 h-40 rounded-full mb-4 mt-12"
         />
-        <h1 className="text-4xl font-bold mb-1">Adam Kahirov</h1>
+        <h1 className="text-4xl font-bold mb-1 page-title">Adam Kahirov</h1>
         <p className="text-lg text-gray-400 mb-4">@aydamdonelly</p>
 
         {/* Anzeige der ausgewählten SDGs unter dem Namen */}

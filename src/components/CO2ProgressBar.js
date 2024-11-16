@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 
 function CO2ProgressBar() {
-  const maxCO2 = 1000000; // The goal for CO₂ saved
+  const maxCO2 = 1000000; // Ziel für eingespartes CO₂
   const [totalCO2Saved, setTotalCO2Saved] = useState(325590);
 
-  // Simulate the total CO₂ saved increasing slowly towards 1,000,000
+  // Simuliere eine langsame Erhöhung der eingesparten CO₂-Menge in Richtung 1.000.000
   useEffect(() => {
     const interval = setInterval(() => {
       setTotalCO2Saved((prevTotal) => {
@@ -19,23 +19,23 @@ function CO2ProgressBar() {
         const increment = Math.max(1, Math.floor(remaining * 0.0005));
         return prevTotal + increment;
       });
-    }, 1000); // every second
+    }, 1000); // alle Sekunde
     return () => clearInterval(interval);
   }, [maxCO2]);
 
-  // Calculate the progress percentage
+  // Berechne den Fortschrittsprozentsatz
   const percentage = (totalCO2Saved / maxCO2) * 100;
 
-  // Clamp the value between 0 and 100
+  // Beschränke den Wert zwischen 0 und 100
   const clampedPercentage = Math.min(Math.max(percentage, 0), 100);
 
-  // Animation for the progress bar width
+  // Animation für die Breite der Fortschrittsanzeige
   const progressBarAnimation = useSpring({
     width: `${clampedPercentage}%`,
     config: { duration: 1000 },
   });
 
-  // Animation for the displayed CO₂ saved
+  // Animation für die angezeigte eingesparte CO₂-Menge
   const numberAnimation = useSpring({
     number: totalCO2Saved,
     config: { duration: 1000 },
@@ -43,7 +43,7 @@ function CO2ProgressBar() {
 
   return (
     <div className="w-full">
-      <div className="relative w-full bg-dark rounded-full overflow-hidden shadow-lg h-8"> {/* Höhe erhöht */}
+      <div className="relative w-full bg-dark rounded-full overflow-hidden shadow-lg h-8">
         <animated.div
           className="h-8 bg-greenLight"
           style={{
@@ -52,8 +52,10 @@ function CO2ProgressBar() {
           }}
         />
       </div>
-      <animated.div className="mt-2 text-center text-cream font-bold text-xl">
-        {numberAnimation.number.to((n) => `${Math.floor(n)} kg CO₂ eingespart`)}
+      <animated.div className="mt-2 text-center text-cream font-bold text-lg px-2">
+        {numberAnimation.number.to((n) =>
+          `Im November 2024 von der ecoQuest-Community gespart: ${Math.floor(n)} kg CO₂`
+        )}
       </animated.div>
     </div>
   );
