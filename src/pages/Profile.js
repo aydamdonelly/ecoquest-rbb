@@ -50,7 +50,7 @@ function Profile() {
   );
 
   return (
-    <div className="p-5 text-cream font-sans bg-dark min-h-screen">
+    <div className="p-5 text-cream font-sans bg-dark min-h-screen page-with-grid-background">
       <div className="flex flex-col items-center">
         <img
           src="/images/profile-picture.jpg"
