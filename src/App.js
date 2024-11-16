@@ -11,11 +11,9 @@ import Community from './pages/Community';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './index.css';
 
-function App() {
-  useEffect(() => {
-    document.title = 'ecoQuest'; // Setze den Titel einmalig
-  }, []); // Leer bedeutet: nur beim ersten Render ausführen
+document.title = 'ecoQuest';
 
+function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [userCredits, setUserCredits] = useState(0);
 
