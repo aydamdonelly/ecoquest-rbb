@@ -6,7 +6,7 @@
 body {
   @apply bg-dark text-cream;
   margin: 0;
-  font-size: 18px; /* Increased font size for better readability on mobile */
+  font-size: 18px; /* Schriftgröße erhöht für bessere Lesbarkeit auf mobilen Geräten */
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -24,9 +24,7 @@ body {
 
 .App {
   @apply min-h-screen flex flex-col;
-  background: linear-gradient(-45deg, #0d0d0d, #1A1A19, #2b2b2b, #1A1A19);
-  background-size: 400% 400%;
-  animation: backgroundAnimation 15s ease infinite;
+  background: radial-gradient(circle at center, #1A1A19, #0d0d0d, #000000);
   position: relative;
   overflow: hidden;
 }
@@ -38,45 +36,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image:
-    linear-gradient(
-      0deg,
-      transparent 24%,
-      rgba(255, 255, 255, 0.05) 25%,
-      rgba(255, 255, 255, 0.05) 26%,
-      transparent 27%,
-      transparent 74%,
-      rgba(255, 255, 255, 0.05) 75%,
-      rgba(255, 255, 255, 0.05) 76%,
-      transparent 77%,
-      transparent
-    ),
-    linear-gradient(
-      90deg,
-      transparent 24%,
-      rgba(255, 255, 255, 0.05) 25%,
-      rgba(255, 255, 255, 0.05) 26%,
-      transparent 27%,
-      transparent 74%,
-      rgba(255, 255, 255, 0.05) 75%,
-      rgba(255, 255, 255, 0.05) 76%,
-      transparent 77%,
-      transparent
-    );
-  background-size: 50px 50px;
-  pointer-events: none;
-}
-
-/* Added a mesh-like background */
-.App::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/images/mesh-background.png'); /* Ensure this image exists */
-  opacity: 0.1;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 70%);
   pointer-events: none;
 }
 
@@ -157,20 +117,20 @@ body {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
-/* Mobile adjustments */
+/* Anpassungen für mobile Geräte */
 @media (max-width: 768px) {
   .text-4xl {
-    font-size: 2.5rem; /* Adjust headings */
+    font-size: 2.5rem; /* Überschriften anpassen */
   }
   .p-5 {
-    padding: 1rem; /* Reduce padding */
+    padding: 1rem; /* Innenabstände reduzieren */
   }
   .globe-label {
-    font-size: 16px; /* Adjust globe label font size */
+    font-size: 16px; /* Schriftgröße der Labels auf dem Globus */
   }
 }
 
-/* Margin top for headings */
+/* Margin-top für Überschriften */
 .mt-12 {
   margin-top: 3rem;
 }
