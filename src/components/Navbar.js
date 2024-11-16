@@ -1,25 +1,32 @@
 // src/components/Navbar.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaHome, FaTasks, FaChartLine, FaUser, FaStore, FaUsers, FaLeaf } from 'react-icons/fa';
 import { useSpring, animated } from 'react-spring';
 import CO2ProgressBar from './CO2ProgressBar';
 
-function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
+function Navbar({ currentPage, setCurrentPage, userCredits }) {
   // Animation for the ecoCoins counter
-  const creditAnimation = useSpring({
+  const [creditAnimation, setCreditAnimation] = useSpring(() => ({
     number: userCredits,
     config: { duration: 500 },
-  });
+  }));
 
-  const menuItems = [
-    { name: 'home', icon: <FaHome />, label: 'Startseite' },
-    { name: 'challenges', icon: <FaTasks />, label: 'Herausforderungen' },
-    { name: 'impact', icon: <FaChartLine />, label: 'Auswirkungen' },
-    { name: 'shop', icon: <FaStore />, label: 'Shop' },
-    { name: 'community', icon: <FaUsers />, label: 'Community' },
-    { name: 'profile', icon: <FaUser />, label: 'Profil' },
-  ];
+  useEffect(() => {
+    setCreditAnimation({ number: userCredits });
+  }, [userCredits, setCreditAnimation]);
+
+  const menuItems = React.useMemo(
+    () => [
+      { name: 'home', icon: <FaHome />, label: 'Startseite' },
+      { name: 'challenges', icon: <FaTasks />, label: 'Herausforderungen' },
+      { name: 'impact', icon: <FaChartLine />, label: 'Auswirkungen' },
+      { name: 'shop', icon: <FaStore />, label: 'Shop' },
+      { name: 'community', icon: <FaUsers />, label: 'Community' },
+      { name: 'profile', icon: <FaUser />, label: 'Profil' },
+    ],
+    []
+  );
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
@@ -33,7 +40,7 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
         {/* Middle - Progress Bar */}
         {currentPage === 'home' && (
           <div className="flex-1 flex justify-center items-center mt-4">
-            <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
+            <CO2ProgressBar />
           </div>
         )}
 
@@ -43,7 +50,6 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
           <animated.span className="ml-2 text-2xl text-cream font-bold">
             {creditAnimation.number.to((n) => Math.floor(n))}
           </animated.span>
-          <span className="ml-2 text-cream font-bold text-xl">ecoCoins</span>
         </div>
       </div>
 
@@ -67,7 +73,7 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
                   } transition-transform duration-200 ${
                     currentPage === item.name ? 'scale-105' : ''
                   }`}
-                  style={{ fontSize: '1.35em' }} // Increase icon size by 35%
+                  style={{ fontSize: '1.35em' }}
                 >
                   {item.icon}
                 </div>
@@ -82,4 +88,4 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
   );
 }
 
-export default Navbar;
+export default React.memo(Navbar);

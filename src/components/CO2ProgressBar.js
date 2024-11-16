@@ -1,24 +1,41 @@
 // src/components/CO2ProgressBar.js
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 
-function CO2ProgressBar({ totalCO2Saved }) {
-  const maxCO2 = 1000000; // Das Ziel für eingespartes CO₂
+function CO2ProgressBar() {
+  const maxCO2 = 1000000; // The goal for CO₂ saved
+  const [totalCO2Saved, setTotalCO2Saved] = useState(325590);
 
-  // Berechne den Fortschritt in Prozent
+  // Simulate the total CO₂ saved increasing slowly towards 1,000,000
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTotalCO2Saved((prevTotal) => {
+        if (prevTotal >= maxCO2) {
+          clearInterval(interval);
+          return maxCO2;
+        }
+        const remaining = maxCO2 - prevTotal;
+        const increment = Math.max(1, Math.floor(remaining * 0.0005));
+        return prevTotal + increment;
+      });
+    }, 1000); // every second
+    return () => clearInterval(interval);
+  }, [maxCO2]);
+
+  // Calculate the progress percentage
   const percentage = (totalCO2Saved / maxCO2) * 100;
 
-  // Begrenze den Wert zwischen 0 und 100
+  // Clamp the value between 0 and 100
   const clampedPercentage = Math.min(Math.max(percentage, 0), 100);
 
-  // Animation für die Breite der Fortschrittsleiste
+  // Animation for the progress bar width
   const progressBarAnimation = useSpring({
     width: `${clampedPercentage}%`,
     config: { duration: 1000 },
   });
 
-  // Animation für die angezeigte CO₂-Einsparung
+  // Animation for the displayed CO₂ saved
   const numberAnimation = useSpring({
     number: totalCO2Saved,
     config: { duration: 1000 },
@@ -42,4 +59,4 @@ function CO2ProgressBar({ totalCO2Saved }) {
   );
 }
 
-export default CO2ProgressBar;
+export default React.memo(CO2ProgressBar);
