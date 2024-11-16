@@ -2,15 +2,12 @@
 
 import React from 'react';
 import GlobeComponent from '../components/GlobeComponent';
-import CO2ProgressBar from '../components/CO2ProgressBar';
+// CO2ProgressBar-Import entfernt
 
 function Home() {
   return (
     <div className="flex-1 flex flex-col items-center relative">
-      {/* Fortschrittsbalken direkt unter "ecoQuest" */}
-      <div className="w-full mt-4 px-4">
-        <CO2ProgressBar />
-      </div>
+      {/* Fortschrittsbalken entfernt, da er jetzt in Navbar.js eingebunden ist */}
       {/* Globus */}
       <div className="flex-1 flex justify-center items-center z-10">
         <GlobeComponent />

@@ -11,7 +11,7 @@ import {
   FaLeaf,
 } from 'react-icons/fa';
 import { useSpring, animated } from 'react-spring';
-import CO2ProgressBar from './CO2ProgressBar'; // Progress Bar importieren
+import CO2ProgressBar from './CO2ProgressBar'; // Progressbar importieren
 
 function Navbar({ currentPage, setCurrentPage, userCredits }) {
   // Animation für den ecoCoins-Zähler
@@ -56,10 +56,12 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
           </div>
         </div>
 
-        {/* Progress Bar direkt unter ecoQuest, mit 15px Abstand */}
-        <div className="w-full mt-[15px]">
-          <CO2ProgressBar />
-        </div>
+        {/* Progressbar nur auf der Startseite anzeigen */}
+        {currentPage === 'home' && (
+          <div className="w-full mt-[15px]">
+            <CO2ProgressBar />
+          </div>
+        )}
       </div>
 
       {/* Untere Navigation */}
