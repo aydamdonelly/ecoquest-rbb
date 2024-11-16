@@ -8,7 +8,6 @@ import Impact from './pages/Impact';
 import Profile from './pages/Profile';
 import Shop from './pages/Shop';
 import Community from './pages/Community';
-import CO2ProgressBar from './components/CO2ProgressBar';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './index.css';
 
@@ -59,8 +58,8 @@ function App() {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         userCredits={userCredits}
+        totalCO2Saved={totalCO2Saved}
       />
-      {currentPage === 'home' && <CO2ProgressBar totalCO2Saved={totalCO2Saved} />}
       <TransitionGroup className="page-transition">
         <CSSTransition key={currentPage} timeout={300} classNames="fade">
           {renderPage()}

@@ -1,10 +1,11 @@
 // src/components/Navbar.js
 
 import React from 'react';
-import { FaHome, FaTasks, FaChartLine, FaUser, FaStore, FaUsers } from 'react-icons/fa';
+import { FaHome, FaTasks, FaChartLine, FaUser, FaStore, FaUsers, FaLeaf } from 'react-icons/fa';
 import { useSpring, animated } from 'react-spring';
+import CO2ProgressBar from './CO2ProgressBar';
 
-function Navbar({ currentPage, setCurrentPage, userCredits }) {
+function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
   // Animation for the credits counter
   const creditAnimation = useSpring({
     number: userCredits,
@@ -22,34 +23,53 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
-      <div className="flex items-center justify-between px-4 py-3 relative">
-        {/* Place ecoQuest and Credits Counter in top center */}
-        <div className="absolute top-3 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
-          <h1 className="text-4xl font-bold text-cream">ecoQuest</h1>
-          <div className="flex items-center bg-greenDark rounded-full px-4 py-2 mt-2">
-            <FaUser className="h-6 w-6 text-cream" />
-            <animated.span className="ml-2 text-xl text-cream font-bold">
-              {creditAnimation.number.to((n) => Math.floor(n))}
-            </animated.span>
+      {/* Top Navigation */}
+      <div className="flex items-center justify-between px-4 py-2">
+        {/* Left - ecoQuest */}
+        <div className="flex items-center">
+          <h1 className="text-3xl font-bold text-cream">ecoQuest</h1>
+        </div>
+
+        {/* Middle - Progress Bar */}
+        {currentPage === 'home' && (
+          <div className="flex-1 mx-4">
+            <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
           </div>
+        )}
+
+        {/* Right - Credits Counter */}
+        <div className="flex items-center">
+          <FaLeaf className="h-8 w-8 text-greenLight" />
+          <animated.span className="ml-2 text-2xl text-cream font-bold">
+            {creditAnimation.number.to((n) => Math.floor(n))}
+          </animated.span>
         </div>
       </div>
+
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 w-full bg-darkLighter shadow-inner">
-        <div className="flex justify-around">
+      <div className="fixed bottom-0 left-0 w-full">
+        <div className="flex justify-around mb-2">
           {menuItems.map((item) => (
             <button
               key={item.name}
               onClick={() => setCurrentPage(item.name)}
-              className={`flex flex-col items-center py-2 w-full ${
-                currentPage === item.name ? 'text-greenLight' : 'text-cream'
-              }`}
+              className="focus:outline-none"
             >
-              <div className="text-2xl">{item.icon}</div>
-              <span className="text-sm">{item.label}</span>
-              {currentPage === item.name && (
-                <div className="w-2 h-2 bg-greenLight rounded-full mt-1"></div>
-              )}
+              <div
+                className={`flex flex-col items-center ${
+                  currentPage === item.name ? 'text-greenLight' : 'text-cream'
+                }`}
+              >
+                <div
+                  className={`text-5xl p-4 rounded-full ${
+                    currentPage === item.name ? 'bg-greenLight text-dark' : 'bg-transparent'
+                  } transition-transform duration-200 ${
+                    currentPage === item.name ? 'scale-110' : ''
+                  }`}
+                >
+                  {item.icon}
+                </div>
+              </div>
             </button>
           ))}
         </div>

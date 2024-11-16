@@ -25,22 +25,19 @@ function CO2ProgressBar({ totalCO2Saved }) {
   });
 
   return (
-    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-11/12 max-w-md">
-      <div className="relative w-full bg-dark rounded-full overflow-hidden shadow-lg h-6">
+    <div className="w-full">
+      <div className="relative w-full bg-dark rounded-full overflow-hidden shadow-lg h-2">
         <animated.div
-          className="h-6 bg-greenLight"
+          className="h-2 bg-greenLight"
           style={{
             ...progressBarAnimation,
-            boxShadow: '0 0 15px rgba(0, 255, 0, 0.7)',
+            boxShadow: '0 0 10px rgba(0, 255, 0, 0.7)',
           }}
         />
       </div>
-      <animated.div className="mt-2 text-center text-cream font-bold text-xl">
+      <animated.div className="text-center text-cream font-bold text-xs">
         {numberAnimation.number.to((n) => `${Math.floor(n)} kg CO₂ saved`)}
       </animated.div>
-      <div className="text-center text-sm text-cream mt-1">
-        Our goal: 1,000,000 kg CO₂ saved
-      </div>
     </div>
   );
 }

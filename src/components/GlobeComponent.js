@@ -158,6 +158,7 @@ const disasterMarkers = [
     type: 'hurricane',
   },
 ];
+
 function GlobeComponent() {
   const globeEl = useRef();
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -228,7 +229,7 @@ function GlobeComponent() {
 
     // Adjust size for mobile devices
     const isMobile = window.innerWidth <= 768;
-    const scale = isMobile ? 20 : 15; // Increase size on mobile
+    const scale = isMobile ? 16 : 12; // Reduced size to 80% of previous
     sprite.scale.set(scale, scale, 1);
     sprite.frustumCulled = false; // Ensure sprite is included in raycasting
 
@@ -273,11 +274,11 @@ function GlobeComponent() {
           labelLat={(d) => d.coordinates[1]}
           labelLng={(d) => d.coordinates[0]}
           labelText={(d) => d.label}
-          labelSize={(d) => (window.innerWidth <= 768 ? 2 : 1.5)}
+          labelSize={(d) => (window.innerWidth <= 768 ? 1.5 : 1.2)}
           labelDotRadius={0}
           labelColor={() => 'white'}
           labelResolution={2}
-          labelAltitude={-0.1} // Position label below the marker
+          labelAltitude={-0.15} // Position label further below the marker
           labelIncludeDot={false}
           labelClass={() => 'globe-label'}
         />
@@ -289,7 +290,7 @@ function GlobeComponent() {
             <div className="relative bg-dark bg-opacity-95 text-cream p-5 rounded-lg shadow-lg max-w-md w-full overflow-y-auto max-h-full">
               <button
                 onClick={handleClose}
-                className="absolute -top-6 -right-6 text-cream focus:outline-none text-4xl"
+                className="absolute top-2 right-2 text-cream focus:outline-none text-4xl"
               >
                 &times;
               </button>
