@@ -27,31 +27,28 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
       <div className="flex items-center justify-between px-4 py-2">
         {/* Left - ecoQuest */}
         <div className="flex items-center">
-          <h1 className="text-4xl font-bold text-cream">ecoQuest</h1>
+          <h1 className="text-3xl font-bold text-cream">ecoQuest</h1>
         </div>
+
+        {/* Middle - Progress Bar */}
+        {currentPage === 'home' && (
+          <div className="flex-1 mx-4">
+            <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
+          </div>
+        )}
 
         {/* Right - Credits Counter */}
         <div className="flex items-center">
-          <FaLeaf className="h-10 w-10 text-greenLight" />
-          <animated.span className="ml-2 text-3xl text-cream font-bold">
+          <FaLeaf className="h-8 w-8 text-greenLight" />
+          <animated.span className="ml-2 text-2xl text-cream font-bold">
             {creditAnimation.number.to((n) => Math.floor(n))}
           </animated.span>
         </div>
       </div>
 
-      {/* Progress Bar */}
-      {currentPage === 'home' && (
-        <div className="flex flex-col items-center mt-2">
-          <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
-          <div className="text-center text-sm text-cream mt-1 text-base font-semibold">
-            Unser Ziel: 1,000,000 kg CO₂ eingespart
-          </div>
-        </div>
-      )}
-
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 w-full mb-2">
-        <div className="flex justify-around">
+      <div className="fixed bottom-0 left-0 w-full">
+        <div className="flex justify-around mb-2">
           {menuItems.map((item) => (
             <button
               key={item.name}
@@ -64,10 +61,10 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
                 }`}
               >
                 <div
-                  className={`text-3xl p-2 rounded-full ${
+                  className={`text-5xl p-4 rounded-full ${
                     currentPage === item.name ? 'bg-greenLight text-dark' : 'bg-transparent'
                   } transition-transform duration-200 ${
-                    currentPage === item.name ? 'scale-105' : ''
+                    currentPage === item.name ? 'scale-110' : ''
                   }`}
                 >
                   {item.icon}

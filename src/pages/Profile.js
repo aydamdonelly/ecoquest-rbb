@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import SDGs from '../data/sdgs';
-import { useSpring, animated } from 'react-spring';
+import { useSprings, animated } from 'react-spring';
 
 function Profile() {
   const [selectedSDGs, setSelectedSDGs] = useState([]);
@@ -14,6 +14,20 @@ function Profile() {
         : [...prevSelected, id]
     );
   };
+
+  // Generate springs for each SDG
+  const springs = useSprings(
+    SDGs.length,
+    SDGs.map((sdg) => {
+      const isSelected = selectedSDGs.includes(sdg.id);
+      return {
+        transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+        boxShadow: isSelected
+          ? '0px 0px 15px rgba(164, 196, 101, 0.7)'
+          : '0px 0px 0px rgba(0, 0, 0, 0)',
+      };
+    })
+  );
 
   return (
     <div className="p-5 text-cream font-sans bg-dark min-h-screen">
@@ -40,14 +54,8 @@ function Profile() {
         <h2 className="text-2xl font-semibold mb-3">Wähle deine SDGs:</h2>
         <div className="w-full overflow-x-auto">
           <div className="flex space-x-4">
-            {SDGs.map((sdg) => {
-              const isSelected = selectedSDGs.includes(sdg.id);
-              const animation = useSpring({
-                transform: isSelected ? 'scale(1.1)' : 'scale(1)',
-                boxShadow: isSelected
-                  ? '0px 0px 15px rgba(164, 196, 101, 0.7)'
-                  : '0px 0px 0px rgba(0, 0, 0, 0)',
-              });
+            {springs.map((animation, index) => {
+              const sdg = SDGs[index];
               return (
                 <animated.img
                   key={sdg.id}
