@@ -81,8 +81,8 @@ function Profile() {
         {/* SDG-Auswahl - Kleiner Teil */}
         <h2 className="text-2xl font-semibold mt-8 mb-3">Wähle deine SDGs:</h2>
         <div className="w-full overflow-x-auto">
-          <div className="flex space-x-4">
-              {{springs.map((animation, index) => {
+        <div className="flex space-x-4">
+          {springs.map((animation, index) => {
             const sdg = SDGs[index];
             return (
               <animated.img
@@ -94,8 +94,8 @@ function Profile() {
                 onClick={() => handleSDGSelection(sdg.id)}
               />
             );
-          })}}  
-          </div>
+          })}
+        </div>
         </div>
       </div>
     </div>
