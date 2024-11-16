@@ -159,12 +159,14 @@ const disasterMarkers = [
   },
 ];
 
+
 function GlobeComponent() {
   const globeEl = useRef();
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
     globeEl.current.pointOfView({ lat: 0, lng: 0, altitude: 2 }, 0);
+
     const controls = globeEl.current.controls();
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.11; // Adjusted rotation speed
@@ -229,7 +231,7 @@ function GlobeComponent() {
 
     // Adjust size for mobile devices
     const isMobile = window.innerWidth <= 768;
-    const scale = isMobile ? 16 : 12; // Reduced size to 80% of previous
+    const scale = isMobile ? 14 : 10; // Reduced size
     sprite.scale.set(scale, scale, 1);
     sprite.frustumCulled = false; // Ensure sprite is included in raycasting
 
@@ -246,8 +248,8 @@ function GlobeComponent() {
   const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(sprite.scale, {
-      x: sprite.scale.x * 1.25,
-      y: sprite.scale.y * 1.25,
+      x: sprite.scale.x * 1.15,
+      y: sprite.scale.y * 1.15,
       duration: 1,
       ease: 'sine.inOut',
     });
@@ -273,26 +275,31 @@ function GlobeComponent() {
           labelsData={disasterMarkers}
           labelLat={(d) => d.coordinates[1]}
           labelLng={(d) => d.coordinates[0]}
-          labelText={(d) => d.label}
-          labelSize={(d) => (window.innerWidth <= 768 ? 1.5 : 1.2)}
+          labelText={(d) => d.name} // Use 'name' instead of 'label'
+          labelSize={(d) => (window.innerWidth <= 768 ? 1.2 : 1)}
           labelDotRadius={0}
           labelColor={() => 'white'}
           labelResolution={2}
-          labelAltitude={-0.15} // Position label further below the marker
+          labelAltitude={-0.15} // Position label below the marker
           labelIncludeDot={false}
           labelClass={() => 'globe-label'}
         />
         {selectedMarker && (
           <animated.div
             style={popupAnimation}
-            className="fixed inset-0 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 flex justify-center items-center z-50 p-4"
           >
             <div className="relative bg-dark bg-opacity-95 text-cream p-5 rounded-lg shadow-lg max-w-md w-full overflow-y-auto max-h-full">
               <button
                 onClick={handleClose}
-                className="absolute top-2 right-2 text-cream focus:outline-none text-4xl"
+                className="absolute -top-6 -right-6 focus:outline-none"
               >
-                &times;
+                <div className="relative">
+                  <div className="absolute inset-0 bg-white rounded-full blur-sm"></div>
+                  <div className="relative bg-black text-white rounded-full h-12 w-12 flex items-center justify-center text-2xl">
+                    &times;
+                  </div>
+                </div>
               </button>
               {selectedMarker.image && (
                 <img
@@ -307,22 +314,22 @@ function GlobeComponent() {
               <p className="mb-4 text-center">{selectedMarker.description}</p>
               <div className="flex flex-col space-y-2">
                 <button
-                  onClick={() => alert('More information coming soon!')}
+                  onClick={() => alert('Mehr Informationen kommen bald!')}
                   className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark w-full"
                 >
-                  Inform
+                  Informieren
                 </button>
                 <button
-                  onClick={() => alert('Quiz coming soon!')}
+                  onClick={() => alert('Quiz kommt bald!')}
                   className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark w-full"
                 >
                   Quiz
                 </button>
                 <button
-                  onClick={() => alert('Donations coming soon!')}
+                  onClick={() => alert('Spenden kommt bald!')}
                   className="px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark w-full"
                 >
-                  Donate
+                  Spenden
                 </button>
               </div>
             </div>
