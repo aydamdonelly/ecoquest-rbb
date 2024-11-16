@@ -7,7 +7,7 @@ import { useSpring, animated } from 'react-spring';
 const initialPosts = [
   {
     id: 1,
-    author: 'John Doe',
+    author: 'Alex Müller',
     content: 'Habe gerade eine 10 km lange Fahrradtour anstelle des Autofahrens gemacht!',
     likes: 34,
     comments: [],
@@ -15,13 +15,13 @@ const initialPosts = [
   },
   {
     id: 2,
-    author: 'Jane Smith',
+    author: 'Sophie Becker',
     content: 'Heute 20 Bäume in meinem örtlichen Park gepflanzt.',
     likes: 56,
     comments: [],
     avatar: '/images/avatar2.png',
   },
-  // Weitere Beiträge hier hinzufügen...
+  // Additional posts...
 ];
 
 const trendingTopics = [

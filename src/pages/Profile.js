@@ -57,10 +57,10 @@ function Profile() {
           alt="Profilbild"
           className="w-40 h-40 rounded-full mb-4"
         />
-        <h1 className="text-4xl font-bold mb-1">Dein Name</h1>
-        <p className="text-lg text-gray-400 mb-4">@benutzername</p>
+        <h1 className="text-4xl font-bold mb-1">Adam Kahirov</h1>
+        <p className="text-lg text-gray-400 mb-4">@aydamdonelly</p>
 
-        {/* Anzeige der ausgewählten SDGs unter dem Namen */}
+        {/* Display selected SDGs under the name */}
         <div className="flex space-x-2 mb-5">
           {selectedSDGs.slice(0, 3).map((id) => {
             const sdg = SDGs.find((sdg) => sdg.id === id);
@@ -75,12 +75,12 @@ function Profile() {
           })}
         </div>
 
-        {/* Profil-Details */}
+        {/* Profile Details */}
         <div className="w-full max-w-md">
           <div className="bg-darkLighter p-4 rounded-lg mb-4">
             <div className="flex items-center">
               <FaEnvelope className="text-greenLight mr-2" />
-              <span className="text-xl">email@example.com</span>
+              <span className="text-xl">adamkahirov@web.de</span>
             </div>
           </div>
           <div className="bg-darkLighter p-4 rounded-lg mb-4">
@@ -97,7 +97,7 @@ function Profile() {
           </div>
         </div>
 
-        {/* SDG-Auswahl - Kleiner Teil */}
+        {/* SDG Selection */}
         <h2 className="text-2xl font-semibold mt-8 mb-3">Wähle deine SDGs:</h2>
         <div className="w-full overflow-x-auto">
           <div className="flex space-x-4">
@@ -117,21 +117,30 @@ function Profile() {
           </div>
         </div>
 
-        {/* Wissensprofil */}
+        {/* Knowledge Profile */}
         <h2 className="text-2xl font-semibold mt-8 mb-3">Dein Wissensprofil:</h2>
         <div className="w-full max-w-md">
           {knowledgeAreas.map((area) => (
-            <div key={area.id} className="mb-4">
+            <div key={area.id} className="mb-6">
               <label className="block text-lg mb-2">{area.label}</label>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={knowledgeLevels[area.id]}
-                onChange={(e) => handleKnowledgeChange(area.id, e.target.value)}
-                className="w-full"
-              />
-              <div className="text-right">{knowledgeLevels[area.id]}%</div>
+              <div className="flex items-center">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={knowledgeLevels[area.id]}
+                  onChange={(e) => handleKnowledgeChange(area.id, e.target.value)}
+                  className="w-full"
+                />
+                <span className="ml-4 text-lg">{knowledgeLevels[area.id]}%</span>
+              </div>
+              {/* Styled progress bar */}
+              <div className="w-full bg-gray-300 h-2 rounded-full mt-2">
+                <div
+                  className="bg-greenLight h-2 rounded-full"
+                  style={{ width: `${knowledgeLevels[area.id]}%` }}
+                ></div>
+              </div>
             </div>
           ))}
         </div>

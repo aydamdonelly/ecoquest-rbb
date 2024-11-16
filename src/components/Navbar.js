@@ -33,13 +33,13 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
       <div className="flex items-center justify-between px-4 py-2">
         {/* Left - ecoQuest */}
         <div className="flex items-center">
-          <h1 className="text-6xl font-bold text-cream">ecoQuest</h1>
+          <h1 className="text-7xl font-bold text-cream">ecoQuest</h1>
         </div>
 
         {/* Right - ecoCoins Counter */}
         <div className="flex items-center">
-          <FaLeaf className="h-12 w-12 text-greenLight" />
-          <animated.span className="ml-2 text-4xl text-cream font-bold">
+          <FaLeaf className="h-14 w-14 text-greenLight" />
+          <animated.span className="ml-2 text-5xl text-cream font-bold">
             {creditAnimation.number.to((n) => Math.floor(n))}
           </animated.span>
         </div>
@@ -63,13 +63,13 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
                   className={`p-1 rounded-full ${
                     currentPage === item.name ? 'bg-greenLight text-dark' : 'bg-transparent'
                   } transition-transform duration-200 ${
-                    currentPage === item.name ? 'scale-110' : ''
+                    currentPage === item.name ? 'scale-125' : ''
                   }`}
-                  style={{ fontSize: '2em' }}
+                  style={{ fontSize: '3em' }}
                 >
                   {item.icon}
                 </div>
-                {/* Labels entfernt */}
+                {/* Labels removed for cleaner look */}
               </div>
             </button>
           ))}
