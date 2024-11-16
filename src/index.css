@@ -10,22 +10,33 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-/* Hintergrundanimation für bestimmte Seiten */
-@keyframes grayGradientAnimation {
+@keyframes backgroundAnimation {
   0% {
-    background-color: #1A1A1A;
+    background-position: 0% 50%;
   }
   50% {
-    background-color: #2A2A2A;
+    background-position: 100% 50%;
   }
   100% {
-    background-color: #1A1A1A;
+    background-position: 0% 50%;
   }
 }
 
+/* Hintergrund für die Startseite (Globus-Seite) */
+.App {
+  @apply min-h-screen flex flex-col;
+  background: linear-gradient(-45deg, #1A1A19, #31511E, #859F3D, #1A1A19);
+  background-size: 400% 400%;
+  animation: backgroundAnimation 15s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hintergrund für die anderen Seiten */
 .page-with-grid-background {
   position: relative;
   overflow: hidden;
+  background: #1A1A1A;
   animation: grayGradientAnimation 10s ease infinite;
 }
 
@@ -64,6 +75,18 @@ body {
   background-size: 50px 50px;
   pointer-events: none;
   opacity: 0.5;
+}
+
+@keyframes grayGradientAnimation {
+  0% {
+    background-color: #1A1A1A;
+  }
+  50% {
+    background-color: #2A2A2A;
+  }
+  100% {
+    background-color: #1A1A1A;
+  }
 }
 
 @keyframes pulse {
