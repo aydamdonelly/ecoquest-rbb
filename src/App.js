@@ -6,7 +6,11 @@ import Home from './pages/Home';
 import Challenges from './pages/Challenges';
 import Impact from './pages/Impact';
 import Profile from './pages/Profile';
+import Shop from './pages/Shop';
+import Community from './pages/Community';
 import CO2ProgressBar from './components/CO2ProgressBar';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './index.css';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -40,6 +44,10 @@ function App() {
         return <Impact />;
       case 'profile':
         return <Profile userCredits={userCredits} setUserCredits={setUserCredits} />;
+      case 'shop':
+        return <Shop userCredits={userCredits} setUserCredits={setUserCredits} />;
+      case 'community':
+        return <Community />;
       default:
         return <Home />;
     }
@@ -47,9 +55,17 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} userCredits={userCredits} />
-      <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
-      {renderPage()}
+      <Navbar
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        userCredits={userCredits}
+      />
+      {currentPage === 'home' && <CO2ProgressBar totalCO2Saved={totalCO2Saved} />}
+      <TransitionGroup className="page-transition">
+        <CSSTransition key={currentPage} timeout={300} classNames="fade">
+          {renderPage()}
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   );
 }
