@@ -8,7 +8,7 @@ const initialPosts = [
   {
     id: 1,
     author: 'John Doe',
-    content: 'Just completed a 10km bike ride instead of driving!',
+    content: 'Habe gerade eine 10 km lange Fahrradtour anstelle des Autofahrens gemacht!',
     likes: 34,
     comments: [],
     avatar: '/images/avatar1.png',
@@ -16,12 +16,12 @@ const initialPosts = [
   {
     id: 2,
     author: 'Jane Smith',
-    content: 'Planted 20 trees in my local park today.',
+    content: 'Heute 20 Bäume in meinem örtlichen Park gepflanzt.',
     likes: 56,
     comments: [],
     avatar: '/images/avatar2.png',
   },
-  // ... Add more posts as needed
+  // ... Weitere Beiträge
 ];
 
 function Community() {
@@ -50,7 +50,7 @@ function Community() {
     if (newPostContent.trim() !== '') {
       const newPost = {
         id: posts.length + 1,
-        author: 'You',
+        author: 'Du',
         content: newPostContent,
         likes: 0,
         comments: [],
@@ -65,7 +65,7 @@ function Community() {
 
   return (
     <div className="p-5 text-cream font-sans bg-dark min-h-screen">
-      <animated.h1 style={animationProps} className="text-3xl font-bold mb-5 text-center">
+      <animated.h1 style={animationProps} className="text-3xl font-bold mb-5 text-center mt-12">
         Community
       </animated.h1>
 
@@ -75,13 +75,13 @@ function Community() {
           value={newPostContent}
           onChange={(e) => setNewPostContent(e.target.value)}
           className="w-full p-3 rounded bg-dark text-cream"
-          placeholder="Share your thoughts..."
+          placeholder="Teile deine Gedanken..."
         ></textarea>
         <button
           onClick={handleNewPost}
           className="mt-2 px-4 py-2 bg-greenLight text-dark rounded hover:bg-greenDark flex items-center"
         >
-          <FaPaperPlane className="mr-2" /> Post
+          <FaPaperPlane className="mr-2" /> Posten
         </button>
       </div>
 
@@ -106,11 +106,10 @@ function Community() {
                 <FaThumbsUp className="text-greenLight" />
                 <span className="ml-2">{post.likes}</span>
               </button>
-              {/* Implement comment functionality */}
               <button
                 className="flex items-center"
                 onClick={() => {
-                  const comment = prompt('Enter your comment:');
+                  const comment = prompt('Gib deinen Kommentar ein:');
                   if (comment) handleComment(post.id, comment);
                 }}
               >
@@ -119,7 +118,7 @@ function Community() {
               </button>
               <button className="flex items-center ml-4">
                 <FaShare className="text-greenLight" />
-                <span className="ml-2">Share</span>
+                <span className="ml-2">Teilen</span>
               </button>
             </div>
             {/* Display comments */}
@@ -127,7 +126,7 @@ function Community() {
               <div className="bg-dark p-3 rounded">
                 {post.comments.map((comment, index) => (
                   <p key={index} className="mb-2">
-                    <strong>You:</strong> {comment}
+                    <strong>Du:</strong> {comment}
                   </p>
                 ))}
               </div>

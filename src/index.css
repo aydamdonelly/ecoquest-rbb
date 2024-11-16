@@ -6,6 +6,7 @@
 body {
   @apply bg-dark text-cream;
   margin: 0;
+  font-size: 16px;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -141,4 +142,18 @@ body {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.75);
+}
+
+@media (max-width: 768px) {
+  .text-3xl {
+    font-size: 1.75rem; /* Verkleinere die Überschrift auf Mobilgeräten */
+  }
+  .p-5 {
+    padding: 1rem; /* Reduziere die Innenabstände */
+  }
+}
+
+/* Seitenüberschriften nach unten schieben */
+.mt-12 {
+  margin-top: 3rem;
 }

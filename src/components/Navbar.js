@@ -6,16 +6,16 @@ import { useSpring, animated } from 'react-spring';
 import CO2ProgressBar from './CO2ProgressBar';
 
 function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
-  // Animation for the credits counter
+  // Animation for the ecoCoins counter
   const creditAnimation = useSpring({
     number: userCredits,
     config: { duration: 500 },
   });
 
   const menuItems = [
-    { name: 'home', icon: <FaHome />, label: 'Home' },
-    { name: 'challenges', icon: <FaTasks />, label: 'Challenges' },
-    { name: 'impact', icon: <FaChartLine />, label: 'Impact' },
+    { name: 'home', icon: <FaHome />, label: 'Startseite' },
+    { name: 'challenges', icon: <FaTasks />, label: 'Herausforderungen' },
+    { name: 'impact', icon: <FaChartLine />, label: 'Auswirkungen' },
     { name: 'shop', icon: <FaStore />, label: 'Shop' },
     { name: 'community', icon: <FaUsers />, label: 'Community' },
     { name: 'profile', icon: <FaUser />, label: 'Profil' },
@@ -31,16 +31,19 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
         </div>
 
         {/* Middle - Progress Bar */}
-        <div className="flex-1 flex justify-center items-center" style={{ marginTop: '4px' }}>
-          <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
-        </div>
+        {currentPage === 'home' && (
+          <div className="flex-1 flex justify-center items-center mt-4">
+            <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
+          </div>
+        )}
 
-        {/* Right - Credits Counter */}
+        {/* Right - ecoCoins Counter */}
         <div className="flex items-center">
           <FaLeaf className="h-8 w-8 text-greenLight" />
           <animated.span className="ml-2 text-2xl text-cream font-bold">
             {creditAnimation.number.to((n) => Math.floor(n))}
           </animated.span>
+          <span className="ml-2 text-cream font-bold text-xl">ecoCoins</span>
         </div>
       </div>
 
@@ -59,14 +62,17 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
                 }`}
               >
                 <div
-                  className={`text-xl p-1 rounded-full ${
+                  className={`p-1 rounded-full ${
                     currentPage === item.name ? 'bg-greenLight text-dark' : 'bg-transparent'
                   } transition-transform duration-200 ${
                     currentPage === item.name ? 'scale-105' : ''
                   }`}
+                  style={{ fontSize: '1.35em' }} // Increase icon size by 35%
                 >
                   {item.icon}
                 </div>
+                {/* Optional: Display labels */}
+                <span className="text-xs mt-1">{item.label}</span>
               </div>
             </button>
           ))}

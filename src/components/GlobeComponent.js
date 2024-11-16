@@ -169,16 +169,15 @@ function GlobeComponent() {
 
     const controls = globeEl.current.controls();
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.11; // Adjusted rotation speed
-    controls.enableDamping = true; // Enable smooth damping
-    controls.dampingFactor = 0.05; // Damping factor
+    controls.autoRotateSpeed = 0.11;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
 
-    // Configure controls for touch interactions
     controls.touches = {
-      ONE: THREE.TOUCH.ROTATE, // Enable rotation on one-finger touch
-      TWO: THREE.TOUCH.DOLLY_PAN, // Allow zooming and panning with two fingers
+      ONE: THREE.TOUCH.ROTATE,
+      TWO: THREE.TOUCH.DOLLY_PAN,
     };
-    controls.enablePan = false; // Optional: disable panning if not needed
+    controls.enablePan = false;
   }, []);
 
   const handleMarkerClick = (marker) => {
@@ -214,11 +213,11 @@ function GlobeComponent() {
 
   const createMarkerMesh = (d) => {
     const canvas = document.createElement('canvas');
-    const size = 256; // Larger size for higher resolution
+    const size = 256;
     canvas.width = size;
     canvas.height = size;
     const context = canvas.getContext('2d');
-    context.font = '200px sans-serif'; // Larger font size
+    context.font = '200px sans-serif';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(markerIcons[d.type] || '❗', size / 2, size / 2);
@@ -229,22 +228,18 @@ function GlobeComponent() {
     });
     const sprite = new THREE.Sprite(material);
 
-    // Adjust size for mobile devices
     const isMobile = window.innerWidth <= 768;
-    const scale = isMobile ? 14 : 10; // Reduced size
+    const scale = isMobile ? 14 : 10;
     sprite.scale.set(scale, scale, 1);
-    sprite.frustumCulled = false; // Ensure sprite is included in raycasting
+    sprite.frustumCulled = false;
 
-    // Store the marker data in userData
     sprite.userData = d;
 
-    // GSAP animation
     animateSprite(sprite);
 
     return sprite;
   };
 
-  // GSAP animation function
   const animateSprite = (sprite) => {
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     tl.to(sprite.scale, {
@@ -275,12 +270,12 @@ function GlobeComponent() {
           labelsData={disasterMarkers}
           labelLat={(d) => d.coordinates[1]}
           labelLng={(d) => d.coordinates[0]}
-          labelText={(d) => d.name} // Use 'name' instead of 'label'
+          labelText={(d) => d.label} // Verwenden Sie 'label' für die Beschriftung
           labelSize={(d) => (window.innerWidth <= 768 ? 1.2 : 1)}
           labelDotRadius={0}
           labelColor={() => 'white'}
           labelResolution={2}
-          labelAltitude={-0.15} // Position label below the marker
+          labelAltitude={-0.15}
           labelIncludeDot={false}
           labelClass={() => 'globe-label'}
         />
@@ -292,14 +287,9 @@ function GlobeComponent() {
             <div className="relative bg-dark bg-opacity-95 text-cream p-5 rounded-lg shadow-lg max-w-md w-full overflow-y-auto max-h-full">
               <button
                 onClick={handleClose}
-                className="absolute -top-6 -right-6 focus:outline-none"
+                className="absolute top-2 right-2 text-2xl text-cream focus:outline-none"
               >
-                <div className="relative">
-                  <div className="absolute inset-0 bg-white rounded-full blur-sm"></div>
-                  <div className="relative bg-black text-white rounded-full h-12 w-12 flex items-center justify-center text-2xl">
-                    &times;
-                  </div>
-                </div>
+                &times;
               </button>
               {selectedMarker.image && (
                 <img

@@ -13,7 +13,7 @@ import './index.css';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [userCredits, setUserCredits] = useState(0); // State for user's credits
+  const [userCredits, setUserCredits] = useState(0); // State for user's ecoCoins
   const [totalCO2Saved, setTotalCO2Saved] = useState(325590); // State for total CO₂ saved
 
   // Simulate the total CO₂ saved increasing slowly towards 1,000,000
