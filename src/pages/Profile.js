@@ -120,27 +120,27 @@ function Profile() {
         <p className="mb-4">Verbleibende Punkte: {remainingPoints}</p>
         <div className="w-full max-w-md">
           {knowledgeAreas.map((area) => (
-            <div key={area.id} className="mb-6">
-              <label className="block text-lg mb-2">{area.label}</label>
-              <div className="flex items-center">
-                <button
-                  onClick={() => handleKnowledgeDecrement(area.id)}
-                  className="px-2 py-1 bg-gray-600 text-cream rounded hover:bg-gray-500 mr-2"
-                  disabled={knowledgeLevels[id] === 0}
-                >
-                  <FaMinus />
-                </button>
-                <span className="text-xl mx-2">{knowledgeLevels[area.id]}</span>
-                <button
-                  onClick={() => handleKnowledgeIncrement(area.id)}
-                  className="px-2 py-1 bg-greenLight text-dark rounded hover:bg-greenDark ml-2"
-                  disabled={remainingPoints === 0}
-                >
-                  <FaPlus />
-                </button>
-              </div>
+          <div key={area.id} className="mb-6">
+            <label className="block text-lg mb-2">{area.label}</label>
+            <div className="flex items-center">
+              <button
+                onClick={() => handleKnowledgeDecrement(area.id)}
+                className="px-2 py-1 bg-gray-600 text-cream rounded hover:bg-gray-500 mr-2"
+                disabled={knowledgeLevels[area.id] === 0} // Hier die Änderung
+              >
+                <FaMinus />
+              </button>
+              <span className="text-xl mx-2">{knowledgeLevels[area.id]}</span>
+              <button
+                onClick={() => handleKnowledgeIncrement(area.id)}
+                className="px-2 py-1 bg-greenLight text-dark rounded hover:bg-greenDark ml-2"
+                disabled={remainingPoints === 0}
+              >
+                <FaPlus />
+              </button>
             </div>
-          ))}
+          </div>
+        ))}
         </div>
       </div>
     </div>
