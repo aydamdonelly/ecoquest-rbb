@@ -1,6 +1,6 @@
 // src/App.js
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Challenges from './pages/Challenges';
@@ -15,7 +15,29 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [userCredits, setUserCredits] = useState(0);
 
-  const memoizedSetCurrentPage = useCallback(setCurrentPage, []);
+  const memoizedSetCurrentPage = useCallback((page) => {
+    setCurrentPage(page);
+  }, []);
+
+  // Memoize the current page component to prevent unnecessary re-renders
+  const currentPageComponent = useMemo(() => {
+    switch (currentPage) {
+      case 'home':
+        return <Home />;
+      case 'challenges':
+        return <Challenges setUserCredits={setUserCredits} />;
+      case 'impact':
+        return <Impact />;
+      case 'profile':
+        return <Profile userCredits={userCredits} setUserCredits={setUserCredits} />;
+      case 'shop':
+        return <Shop userCredits={userCredits} setUserCredits={setUserCredits} />;
+      case 'community':
+        return <Community />;
+      default:
+        return <Home />;
+    }
+  }, [currentPage, userCredits, setUserCredits]);
 
   return (
     <div className="App">
@@ -26,18 +48,8 @@ function App() {
       />
       <TransitionGroup className="page-transition">
         <CSSTransition key={currentPage} timeout={300} classNames="fade">
-          {currentPage === 'home' && <Home />}
-          {currentPage === 'challenges' && (
-            <Challenges setUserCredits={setUserCredits} />
-          )}
-          {currentPage === 'impact' && <Impact />}
-          {currentPage === 'profile' && (
-            <Profile userCredits={userCredits} setUserCredits={setUserCredits} />
-          )}
-          {currentPage === 'shop' && (
-            <Shop userCredits={userCredits} setUserCredits={setUserCredits} />
-          )}
-          {currentPage === 'community' && <Community />}
+          {/* Ensure CSSTransition receives exactly one child */}
+          <div className="page-content">{currentPageComponent}</div>
         </CSSTransition>
       </TransitionGroup>
     </div>

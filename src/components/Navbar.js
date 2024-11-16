@@ -1,6 +1,6 @@
 // src/components/Navbar.js
 
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { FaHome, FaTasks, FaChartLine, FaUser, FaStore, FaUsers, FaLeaf } from 'react-icons/fa';
 import { useSpring, animated } from 'react-spring';
 import CO2ProgressBar from './CO2ProgressBar';
@@ -88,4 +88,4 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
   );
 }
 
-export default React.memo(Navbar);
+export default memo(Navbar);
