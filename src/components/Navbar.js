@@ -1,8 +1,17 @@
 // src/components/Navbar.js
 
 import React, { useEffect, memo } from 'react';
-import { FaHome, FaTasks, FaChartLine, FaUser, FaStore, FaUsers, FaLeaf } from 'react-icons/fa';
+import {
+  FaHome,
+  FaTasks,
+  FaChartLine,
+  FaUser,
+  FaStore,
+  FaUsers,
+  FaLeaf,
+} from 'react-icons/fa';
 import { useSpring, animated } from 'react-spring';
+import CO2ProgressBar from './CO2ProgressBar'; // Progress Bar importieren
 
 function Navbar({ currentPage, setCurrentPage, userCredits }) {
   // Animation für den ecoCoins-Zähler
@@ -30,18 +39,26 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
   return (
     <nav className="fixed top-0 left-0 w-full z-50">
       {/* Obere Navigation */}
-      <div className="flex items-center justify-between px-4 py-2 bg-transparent">
-        {/* Links - ecoQuest */}
-        <div className="flex items-center">
-          <h1 className="text-6xl font-bold text-cream">ecoQuest</h1>
+      <div className="flex flex-col items-center px-4 py-2 bg-transparent">
+        {/* ecoQuest und ecoCoins */}
+        <div className="flex items-center justify-between w-full">
+          {/* Links - ecoQuest */}
+          <div className="flex items-center">
+            <h1 className="text-6xl font-bold text-cream">ecoQuest</h1>
+          </div>
+
+          {/* Rechts - ecoCoins Zähler */}
+          <div className="flex items-center">
+            <FaLeaf className="h-12 w-12 text-greenLight" />
+            <animated.span className="ml-2 text-4xl text-cream font-bold">
+              {creditAnimation.number.to((n) => Math.floor(n))}
+            </animated.span>
+          </div>
         </div>
 
-        {/* Rechts - ecoCoins Zähler */}
-        <div className="flex items-center">
-          <FaLeaf className="h-12 w-12 text-greenLight" />
-          <animated.span className="ml-2 text-4xl text-cream font-bold">
-            {creditAnimation.number.to((n) => Math.floor(n))}
-          </animated.span>
+        {/* Progress Bar direkt unter ecoQuest, mit 15px Abstand */}
+        <div className="w-full mt-[15px]">
+          <CO2ProgressBar />
         </div>
       </div>
 
@@ -61,7 +78,9 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
               >
                 <div
                   className={`p-1 rounded-full ${
-                    currentPage === item.name ? 'bg-greenLight text-dark' : 'bg-transparent'
+                    currentPage === item.name
+                      ? 'bg-greenLight text-dark'
+                      : 'bg-transparent'
                   } transition-transform duration-200 ${
                     currentPage === item.name ? 'scale-110' : ''
                   }`}
