@@ -10,7 +10,6 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-/* Hintergrundanimation */
 @keyframes backgroundAnimation {
   0% {
     background-position: 0% 50%;
@@ -23,14 +22,13 @@ body {
   }
 }
 
-/* Hintergrund für alle Seiten einschließlich der Hauptseite */
 .App {
   @apply min-h-screen flex flex-col;
-  position: relative;
-  overflow: hidden;
   background: linear-gradient(-45deg, #1A1A19, #31511E, #859F3D, #1A1A19);
   background-size: 400% 400%;
   animation: backgroundAnimation 15s ease infinite;
+  position: relative;
+  overflow: hidden;
 }
 
 .App::before {
@@ -44,33 +42,30 @@ body {
     linear-gradient(
       0deg,
       transparent 24%,
-      rgba(255, 255, 255, 0.03) 25%,
-      rgba(255, 255, 255, 0.03) 26%,
+      rgba(255, 255, 255, 0.05) 25%,
+      rgba(255, 255, 255, 0.05) 26%,
       transparent 27%,
       transparent 74%,
-      rgba(255, 255, 255, 0.03) 75%,
-      rgba(255, 255, 255, 0.03) 76%,
+      rgba(255, 255, 255, 0.05) 75%,
+      rgba(255, 255, 255, 0.05) 76%,
       transparent 77%,
       transparent
     ),
     linear-gradient(
       90deg,
       transparent 24%,
-      rgba(255, 255, 255, 0.03) 25%,
-      rgba(255, 255, 255, 0.03) 26%,
+      rgba(255, 255, 255, 0.05) 25%,
+      rgba(255, 255, 255, 0.05) 26%,
       transparent 27%,
       transparent 74%,
-      rgba(255, 255, 255, 0.03) 75%,
-      rgba(255, 255, 255, 0.03) 76%,
+      rgba(255, 255, 255, 0.05) 75%,
+      rgba(255, 255, 255, 0.05) 76%,
       transparent 77%,
       transparent
     );
   background-size: 50px 50px;
   pointer-events: none;
-  opacity: 0.5;
 }
-
-/* Entferne die Klasse .page-with-grid-background, da sie nicht mehr benötigt wird */
 
 @keyframes pulse {
   0% {
@@ -88,7 +83,7 @@ body {
   animation: pulse 2s infinite;
 }
 
-/* Styling für die Labels auf dem Globus */
+/* Globe label styling */
 .globe-label {
   font-weight: bold;
   font-size: 16px;
@@ -96,7 +91,7 @@ body {
   pointer-events: none;
 }
 
-/* Seitenübergangsanimationen */
+/* Page Transition Animations */
 .page-transition {
   position: relative;
 }
@@ -123,7 +118,7 @@ body {
   transition: opacity 300ms, transform 300ms;
 }
 
-/* Modal-Stile */
+/* Modal Styles */
 .modal {
   position: absolute;
   top: 50%;
@@ -152,18 +147,17 @@ body {
 /* Anpassungen für mobile Geräte */
 @media (max-width: 768px) {
   .text-4xl {
-    font-size: 2.5rem; /* Überschriften anpassen */
+    font-size: 2rem; /* Überschriften anpassen */
   }
   .p-5 {
     padding: 1rem; /* Innenabstände reduzieren */
   }
   .globe-label {
-    font-size: 16px; /* Schriftgröße der Labels auf dem Globus */
+    font-size: 14px; /* Schriftgröße der Labels auf dem Globus */
   }
 }
 
-/* Zusätzlicher Abstand zwischen "ecoQuest" und den Überschriften */
-.page-title {
-  margin-top: 6rem; /* Oberer Abstand erhöht */
-  margin-bottom: 2rem; /* Unterer Abstand hinzugefügt */
+/* Seitenüberschriften nach unten schieben */
+.mt-12 {
+  margin-top: 3rem;
 }

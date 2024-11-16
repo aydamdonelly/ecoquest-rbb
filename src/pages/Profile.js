@@ -50,7 +50,7 @@ function Profile() {
   };
 
   return (
-    <div className="p-5 text-cream font-sans bg-dark min-h-screen mt-8"> {/* Margin oben erhöht */}
+    <div className="p-5 text-cream font-sans min-h-screen mt-8"> {/* Margin oben erhöht */}
       <div className="flex flex-col items-center">
         <img
           src="/images/profile-picture.jpg"

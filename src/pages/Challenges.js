@@ -167,7 +167,7 @@ function Challenges({ setUserCredits }) {
   });
 
   return (
-    <div className="p-5 text-cream font-sans bg-dark min-h-screen page-with-grid-background">
+    <div className="p-5 text-cream font-sans min-h-screen page-with-grid-background">
       <animated.h1
         style={animationProps}
         className="text-4xl font-bold mb-5 text-center mt-12 page-title"
