@@ -18,7 +18,7 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
     { name: 'impact', icon: <FaChartLine />, label: 'Impact' },
     { name: 'shop', icon: <FaStore />, label: 'Shop' },
     { name: 'community', icon: <FaUsers />, label: 'Community' },
-    { name: 'profile', icon: <FaUser />, label: 'Profile' },
+    { name: 'profile', icon: <FaUser />, label: 'Profil' },
   ];
 
   return (
@@ -27,15 +27,13 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
       <div className="flex items-center justify-between px-4 py-2">
         {/* Left - ecoQuest */}
         <div className="flex items-center">
-          <h1 className="text-3xl font-bold text-cream">ecoQuest</h1>
+          <h1 className="text-4xl font-bold text-cream">ecoQuest</h1>
         </div>
 
         {/* Middle - Progress Bar */}
-        {currentPage === 'home' && (
-          <div className="flex-1 mx-4">
-            <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
-          </div>
-        )}
+        <div className="flex-1 flex justify-center items-center" style={{ marginTop: '4px' }}>
+          <CO2ProgressBar totalCO2Saved={totalCO2Saved} />
+        </div>
 
         {/* Right - Credits Counter */}
         <div className="flex items-center">
@@ -47,8 +45,8 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 w-full">
-        <div className="flex justify-around mb-2">
+      <div className="fixed bottom-0 left-0 w-full mb-2">
+        <div className="flex justify-around">
           {menuItems.map((item) => (
             <button
               key={item.name}
@@ -61,10 +59,10 @@ function Navbar({ currentPage, setCurrentPage, userCredits, totalCO2Saved }) {
                 }`}
               >
                 <div
-                  className={`text-5xl p-4 rounded-full ${
+                  className={`text-xl p-1 rounded-full ${
                     currentPage === item.name ? 'bg-greenLight text-dark' : 'bg-transparent'
                   } transition-transform duration-200 ${
-                    currentPage === item.name ? 'scale-110' : ''
+                    currentPage === item.name ? 'scale-105' : ''
                   }`}
                 >
                   {item.icon}
