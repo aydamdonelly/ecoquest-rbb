@@ -1,6 +1,6 @@
 // src/pages/Impact.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   LineChart,
   BarChart,
@@ -14,6 +14,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { useSpring, animated } from 'react-spring';
+import { FaGlobe, FaChartLine, FaUsers } from 'react-icons/fa';
 
 const temperatureData = [
   { year: 2020, statusQuo: 1.0, userImpact: 0.98 },
@@ -35,126 +36,120 @@ const temperatureData = [
   { year: 2100, statusQuo: 5.0, userImpact: 2.9 },
 ];
 
-const seaLevelData = [
-  { year: 2020, statusQuo: 0.2, userImpact: 0.18 },
-  { year: 2030, statusQuo: 0.4, userImpact: 0.35 },
-  { year: 2040, statusQuo: 0.6, userImpact: 0.5 },
-  { year: 2050, statusQuo: 0.8, userImpact: 0.65 },
-  { year: 2060, statusQuo: 1.0, userImpact: 0.8 },
-  { year: 2070, statusQuo: 1.2, userImpact: 0.95 },
-  { year: 2080, statusQuo: 1.4, userImpact: 1.1 },
-  { year: 2090, statusQuo: 1.6, userImpact: 1.25 },
-  { year: 2100, statusQuo: 1.8, userImpact: 1.4 },
-];
-
-const co2EmissionsData = [
-  { year: 2020, statusQuo: 36, userImpact: 35 },
-  { year: 2025, statusQuo: 38, userImpact: 36 },
-  { year: 2030, statusQuo: 40, userImpact: 38 },
-  { year: 2035, statusQuo: 42, userImpact: 39 },
-  { year: 2040, statusQuo: 44, userImpact: 40 },
-  { year: 2045, statusQuo: 46, userImpact: 41 },
-  { year: 2050, statusQuo: 48, userImpact: 42 },
-  { year: 2055, statusQuo: 50, userImpact: 43 },
-  { year: 2060, statusQuo: 52, userImpact: 44 },
-  { year: 2065, statusQuo: 54, userImpact: 45 },
-  { year: 2070, statusQuo: 56, userImpact: 46 },
-  { year: 2075, statusQuo: 58, userImpact: 47 },
-  { year: 2080, statusQuo: 60, userImpact: 48 },
-  { year: 2085, statusQuo: 62, userImpact: 49 },
-  { year: 2090, statusQuo: 64, userImpact: 50 },
-  { year: 2095, statusQuo: 66, userImpact: 51 },
-  { year: 2100, statusQuo: 68, userImpact: 52 },
+const earthsConsumedData = [
+  { group: 'Durchschnitt', earths: 1.7 },
+  { group: 'Dein Verbrauch', earths: 1.2 },
+  { group: 'Nachhaltig', earths: 1.0 },
 ];
 
 function Impact() {
+  const [activeTab, setActiveTab] = useState('temperature');
   const animationProps = useSpring({ opacity: 1, from: { opacity: 0 } });
 
   return (
     <div className="p-5 text-cream font-sans bg-dark min-h-screen">
       <animated.h1
         style={animationProps}
-        className="text-3xl font-bold mb-5 text-center mt-12"
+        className="text-4xl font-bold mb-5 text-center mt-12"
       >
-        Auswirkungen
+        Impact
       </animated.h1>
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-3">
-          Durchschnittlicher Temperaturanstieg (°C)
-        </h2>
-        <div className="bg-darkLighter p-5 rounded-lg shadow-lg">
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={temperatureData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-              <XAxis dataKey="year" stroke="#ccc" />
-              <YAxis stroke="#ccc" />
-              <Tooltip contentStyle={{ backgroundColor: '#333', borderColor: '#444' }} />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="statusQuo"
-                stroke="#F08080"
-                name="Status Quo"
-              />
-              <Line
-                type="monotone"
-                dataKey="userImpact"
-                stroke="#A4C465"
-                name="Dein Einfluss"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+
+      {/* Tabs */}
+      <div className="flex justify-center space-x-4 mb-6">
+        <button
+          onClick={() => setActiveTab('temperature')}
+          className={`px-4 py-2 rounded ${
+            activeTab === 'temperature' ? 'bg-greenLight text-dark' : 'bg-darkLighter'
+          }`}
+        >
+          <FaChartLine className="inline mr-2" />
+          Temperatur
+        </button>
+        <button
+          onClick={() => setActiveTab('earths')}
+          className={`px-4 py-2 rounded ${
+            activeTab === 'earths' ? 'bg-greenLight text-dark' : 'bg-darkLighter'
+          }`}
+        >
+          <FaGlobe className="inline mr-2" />
+          Erden Verbrauch
+        </button>
+        <button
+          onClick={() => setActiveTab('groups')}
+          className={`px-4 py-2 rounded ${
+            activeTab === 'groups' ? 'bg-greenLight text-dark' : 'bg-darkLighter'
+          }`}
+        >
+          <FaUsers className="inline mr-2" />
+          Gruppenvergleich
+        </button>
       </div>
-      {/* Anstieg des Meeresspiegels */}
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-3">Anstieg des Meeresspiegels (Meter)</h2>
-        <div className="bg-darkLighter p-5 rounded-lg shadow-lg">
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={seaLevelData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-              <XAxis dataKey="year" stroke="#ccc" />
-              <YAxis stroke="#ccc" />
-              <Tooltip contentStyle={{ backgroundColor: '#333', borderColor: '#444' }} />
-              <Legend />
-              <Bar dataKey="statusQuo" fill="#F08080" name="Status Quo" />
-              <Bar dataKey="userImpact" fill="#A4C465" name="Dein Einfluss" />
-            </BarChart>
-          </ResponsiveContainer>
+
+      {/* Content */}
+      {activeTab === 'temperature' && (
+        <div className="mb-10">
+          <h2 className="text-2xl font-semibold mb-3">
+            Durchschnittlicher Temperaturanstieg (°C)
+          </h2>
+          <div className="bg-darkLighter p-5 rounded-lg shadow-lg">
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={temperatureData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                <XAxis dataKey="year" stroke="#ccc" />
+                <YAxis stroke="#ccc" />
+                <Tooltip contentStyle={{ backgroundColor: '#333', borderColor: '#444' }} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="statusQuo"
+                  stroke="#F08080"
+                  name="Status Quo"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="userImpact"
+                  stroke="#A4C465"
+                  name="Dein Einfluss"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
-      </div>
-      {/* CO₂-Emissionen */}
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-3">CO₂-Emissionen (GtCO₂)</h2>
-        <div className="bg-darkLighter p-5 rounded-lg shadow-lg">
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={co2EmissionsData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-              <XAxis dataKey="year" stroke="#ccc" />
-              <YAxis stroke="#ccc" />
-              <Tooltip contentStyle={{ backgroundColor: '#333', borderColor: '#444' }} />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="statusQuo"
-                stroke="#F08080"
-                name="Status Quo"
-              />
-              <Line
-                type="monotone"
-                dataKey="userImpact"
-                stroke="#A4C465"
-                name="Dein Einfluss"
-              />
-            </LineChart>
-          </ResponsiveContainer>
+      )}
+
+      {activeTab === 'earths' && (
+        <div className="mb-10">
+          <h2 className="text-2xl font-semibold mb-3">Erdenverbrauch</h2>
+          <div className="bg-darkLighter p-5 rounded-lg shadow-lg">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={earthsConsumedData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                <XAxis dataKey="group" stroke="#ccc" />
+                <YAxis stroke="#ccc" />
+                <Tooltip contentStyle={{ backgroundColor: '#333', borderColor: '#444' }} />
+                <Bar dataKey="earths" fill="#A4C465" name="Anzahl Erden" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
-      </div>
+      )}
+
+      {activeTab === 'groups' && (
+        <div className="mb-10">
+          <h2 className="text-2xl font-semibold mb-3">Gruppenvergleich</h2>
+          {/* Inhalt für Gruppenvergleich hier hinzufügen */}
+          <div className="bg-darkLighter p-5 rounded-lg shadow-lg">
+            <p className="text-lg">Hier werden verschiedene Gruppen verglichen.</p>
+          </div>
+        </div>
+      )}
+
       {/* Nachhaltigkeitstipps */}
       <div className="mb-10">
         <h2 className="text-2xl font-semibold mb-3">Nachhaltigkeitstipps</h2>
         <div className="bg-darkLighter p-5 rounded-lg shadow-lg">
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside text-lg">
             <li>Reduziere deinen Energieverbrauch durch effiziente Geräte.</li>
             <li>Pflanze Bäume in deiner Gemeinde.</li>
             <li>Unterstütze erneuerbare Energiequellen.</li>

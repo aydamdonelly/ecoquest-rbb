@@ -43,16 +43,16 @@ function CO2ProgressBar() {
 
   return (
     <div className="w-full">
-      <div className="relative w-full bg-dark rounded-full overflow-hidden shadow-lg h-2">
+      <div className="relative w-full bg-dark rounded-full overflow-hidden shadow-lg h-4">
         <animated.div
-          className="h-2 bg-greenLight"
+          className="h-4 bg-greenLight"
           style={{
             ...progressBarAnimation,
             boxShadow: '0 0 10px rgba(0, 255, 0, 0.7)',
           }}
         />
       </div>
-      <animated.div className="mt-1 text-center text-cream font-bold text-xs">
+      <animated.div className="mt-2 text-center text-cream font-bold text-base">
         {numberAnimation.number.to((n) => `${Math.floor(n)} kg CO₂ eingespart`)}
       </animated.div>
     </div>

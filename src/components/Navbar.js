@@ -3,7 +3,6 @@
 import React, { useEffect, memo } from 'react';
 import { FaHome, FaTasks, FaChartLine, FaUser, FaStore, FaUsers, FaLeaf } from 'react-icons/fa';
 import { useSpring, animated } from 'react-spring';
-import CO2ProgressBar from './CO2ProgressBar';
 
 function Navbar({ currentPage, setCurrentPage, userCredits }) {
   // Animation for the ecoCoins counter
@@ -20,7 +19,7 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
     () => [
       { name: 'home', icon: <FaHome />, label: 'Startseite' },
       { name: 'challenges', icon: <FaTasks />, label: 'Herausforderungen' },
-      { name: 'impact', icon: <FaChartLine />, label: 'Auswirkungen' },
+      { name: 'impact', icon: <FaChartLine />, label: 'Impact' },
       { name: 'shop', icon: <FaStore />, label: 'Shop' },
       { name: 'community', icon: <FaUsers />, label: 'Community' },
       { name: 'profile', icon: <FaUser />, label: 'Profil' },
@@ -34,20 +33,13 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
       <div className="flex items-center justify-between px-4 py-2">
         {/* Left - ecoQuest */}
         <div className="flex items-center">
-          <h1 className="text-4xl font-bold text-cream">ecoQuest</h1>
+          <h1 className="text-6xl font-bold text-cream">ecoQuest</h1>
         </div>
-
-        {/* Middle - Progress Bar */}
-        {currentPage === 'home' && (
-          <div className="flex-1 flex justify-center items-center mt-4">
-            <CO2ProgressBar />
-          </div>
-        )}
 
         {/* Right - ecoCoins Counter */}
         <div className="flex items-center">
-          <FaLeaf className="h-8 w-8 text-greenLight" />
-          <animated.span className="ml-2 text-2xl text-cream font-bold">
+          <FaLeaf className="h-12 w-12 text-greenLight" />
+          <animated.span className="ml-2 text-4xl text-cream font-bold">
             {creditAnimation.number.to((n) => Math.floor(n))}
           </animated.span>
         </div>
@@ -71,14 +63,13 @@ function Navbar({ currentPage, setCurrentPage, userCredits }) {
                   className={`p-1 rounded-full ${
                     currentPage === item.name ? 'bg-greenLight text-dark' : 'bg-transparent'
                   } transition-transform duration-200 ${
-                    currentPage === item.name ? 'scale-105' : ''
+                    currentPage === item.name ? 'scale-110' : ''
                   }`}
-                  style={{ fontSize: '1.35em' }}
+                  style={{ fontSize: '2em' }}
                 >
                   {item.icon}
                 </div>
-                {/* Optional: Display labels */}
-                <span className="text-xs mt-1">{item.label}</span>
+                {/* Labels entfernt */}
               </div>
             </button>
           ))}

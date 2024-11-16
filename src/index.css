@@ -6,7 +6,7 @@
 body {
   @apply bg-dark text-cream;
   margin: 0;
-  font-size: 16px;
+  font-size: 18px; /* Schriftgröße erhöht für bessere Lesbarkeit auf mobilen Geräten */
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -86,7 +86,7 @@ body {
 /* Globe label styling */
 .globe-label {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   text-shadow: 0 0 5px black;
   pointer-events: none;
 }
@@ -144,12 +144,16 @@ body {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
+/* Anpassungen für mobile Geräte */
 @media (max-width: 768px) {
-  .text-3xl {
-    font-size: 1.75rem; /* Verkleinere die Überschrift auf Mobilgeräten */
+  .text-4xl {
+    font-size: 2rem; /* Überschriften anpassen */
   }
   .p-5 {
-    padding: 1rem; /* Reduziere die Innenabstände */
+    padding: 1rem; /* Innenabstände reduzieren */
+  }
+  .globe-label {
+    font-size: 14px; /* Schriftgröße der Labels auf dem Globus */
   }
 }
 
